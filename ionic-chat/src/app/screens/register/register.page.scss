@@ -1,0 +1,42 @@
+.login {
+  h3 {
+    font-size: 24px;
+    text-align: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--ion-color-medium);
+  }
+
+  form ion-button {
+    margin-top: 30px;
+    margin-bottom: 10px;
+  }
+
+  ion-item {
+    border-radius: 15px;
+    --highlight-height: 0;
+    --background: var(--ion-color-light);
+    margin-top: 25px;
+  }
+  padding: 20px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.back {
+  margin-top: 10px;
+}
+.message {
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+}

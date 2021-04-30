@@ -8,7 +8,7 @@ export class User {
 }
 
 export class Chat {
-    private  _id: string = ""
+    private _id: string = ""
     participants: string[] = []
     get id() { return this._id }
     set id(val: string) { this._id = val }
@@ -20,7 +20,7 @@ export class WebsocketMessage {
 }
 
 export class Message {
-    private  _id: string = ""
+    private _id: string = ""
     senderName: string = ""
     senderId: string = ""
     receiverId: string = ""
@@ -40,4 +40,12 @@ export enum MessageType {
 export enum WebsocketMessageTypes {
     connection,
     send
+}
+
+export enum Status {
+    loading,
+    loaded,
+    error,
+    success,
+    empty
 }

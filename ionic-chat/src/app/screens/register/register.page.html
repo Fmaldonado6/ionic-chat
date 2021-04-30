@@ -1,0 +1,67 @@
+<ion-content [ngSwitch]="currentStatus">
+  <div class="container" *ngSwitchCase="Status.loaded">
+    <ion-button routerLink="/" class="back" fill="clear" shape="round">
+      <ion-icon name="arrow-back"></ion-icon>
+    </ion-button>
+    <ion-card class="login elevation" mode="md">
+      <ion-card-content>
+        <h3>Registro</h3>
+        <form [formGroup]="form" (ngSubmit)="submitForm(form.value)">
+          <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-input formControlName="email" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Nombre de usuario</ion-label>
+            <ion-input formControlName="username" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input
+              type="password"
+              autocomplete="off"
+              formControlName="password"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Confirmar Contraseña</ion-label>
+            <ion-input
+              type="password"
+              autocomplete="off"
+              formControlName="confirmPassword"
+            ></ion-input>
+          </ion-item>
+
+          <ion-button
+            expand="block"
+            type="submit"
+            shape="round"
+            [disabled]="!form.valid"
+          >
+            Register
+          </ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div class="loading" *ngSwitchCase="Status.loading">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>
+
+  <div class="message" *ngSwitchCase="Status.success">
+    <info-message
+      title="Usuario creado correctamente"
+      (clickEvent)="changePage()"
+    ></info-message>
+  </div>
+
+  <div class="message" *ngSwitchCase="Status.error">
+    <info-message
+      title="Ocurrió un error al crear el usuario"
+      accept="reintentar"
+      [type]="Types.badRequest"
+      (clickEvent)="retry()"
+    ></info-message>
+  </div>
+</ion-content>

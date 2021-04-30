@@ -12,6 +12,10 @@ const routes: Routes = [
     redirectTo: 'auth',
     pathMatch: 'full'
   },
+  {
+    path: 'register',
+    loadChildren: () => import('./screens/register/register.module').then( m => m.RegisterPageModule)
+  },
 
 ];
 
