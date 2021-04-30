@@ -13,9 +13,26 @@ class UsersController extends BaseController {
 
     config() {
         this.router.post("/", (req, res) => this.createUser(req, res))
+        this.router.get("/", (req, res) => this.createUser(req, res))
         this.router.post("/auth", (req, res) => this.authUser(req, res))
         this.router.put("/:id", (req: Request, res) => this.updateUser(req, res))
 
+    }
+
+    async getUsers(req: any, res: Response) {
+        try {
+            const tokenId = req.id
+
+            const users = await usersRepository.findAll()
+
+            const filterUsers = users.filter(e => e.id != tokenId)
+
+            res.status(200).json(filterUsers)
+
+        } catch (error) {
+            console.error(error)
+            res.sendStatus(500)
+        }
     }
 
     async createUser(req: Request, res: Response) {
