@@ -1,5 +1,5 @@
-<ion-content>
-  <div class="container">
+<ion-content [ngSwitch]="currentStatus">
+  <div class="container" *ngSwitchCase="Status.loaded">
     <ion-card class="login elevation" mode="md">
       <ion-card-content>
         <h3>Login</h3>
@@ -31,5 +31,9 @@
         </ion-button>
       </ion-card-content>
     </ion-card>
+  </div>
+
+  <div class="loading" *ngSwitchCase="Status.loading">
+    <ion-spinner color="primary"></ion-spinner>
   </div>
 </ion-content>
