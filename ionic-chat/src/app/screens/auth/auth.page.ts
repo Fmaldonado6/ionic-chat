@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
+interface FormValues {
+  email: string
+  password: string
+}
+
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.page.html',
@@ -22,6 +27,10 @@ export class AuthPage implements OnInit {
         Validators.required
       ])
     })
+  }
+
+  submitForm(values: FormValues) {
+    console.log(values)
   }
 
 }

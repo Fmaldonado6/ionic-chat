@@ -2,17 +2,23 @@
   <ion-card class="login elevation" mode="md">
     <ion-card-content>
       <h3>Login</h3>
-      <form [formGroup]="form">
+      <form [formGroup]="form" (ngSubmit)="submitForm(form.value)">
         <ion-item>
-          <ion-label position="floating">Username</ion-label>
-          <ion-input></ion-input>
+          <ion-label position="floating">Email</ion-label>
+          <ion-input formControlName="email" autocomplete="off"></ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="floating">Password</ion-label>
-          <ion-input></ion-input>
+          <ion-input
+            type="password"
+            autocomplete="off"
+            formControlName="password"
+          ></ion-input>
         </ion-item>
 
-        <ion-button expand="block" shape="round"> Login </ion-button>
+        <ion-button expand="block" type="submit" shape="round">
+          Login
+        </ion-button>
       </form>
       <ion-button expand="block" fill="clear" shape="round">
         Register
