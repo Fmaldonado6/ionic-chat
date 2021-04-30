@@ -44,7 +44,6 @@ export class AuthPage implements OnInit {
   }
 
   submitForm(values: FormValues) {
-    console.log(values)
     const user = new User()
     user.email = values.email
     user.password = values.password
