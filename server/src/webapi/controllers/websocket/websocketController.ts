@@ -20,7 +20,6 @@ class WebsocketController extends BaseController {
 
         ws.on('message', async (msg: string) => {
             const wsMessage = JSON.parse(msg) as WebsocketMessage
-
             if (wsMessage.type == WebsocketMessageTypes.connection)
                 return this.users.set(wsMessage.message, ws)
 
