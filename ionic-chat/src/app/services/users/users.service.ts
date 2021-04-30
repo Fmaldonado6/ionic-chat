@@ -18,6 +18,12 @@ export class UsersService extends DataService {
     return this.http.post<User>(`${this.url}/users`, user).pipe(catchError(this.handleError), map(e => Object.assign(new User(), e)))
   }
 
+  getUsers() {
+    return this.http.get<User[]>(`${this.url}/users`)
+      .pipe(catchError(this.handleError),
+        map(e => e.map(x => Object.assign(new User(), x))))
+  }
+
   setToken(token: string) {
     localStorage.setItem(this.TOKEN_STRING, token);
   }
