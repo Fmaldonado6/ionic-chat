@@ -1,5 +1,5 @@
 export class User {
-    _id: string = ""
+    private _id: string = ""
     username: string = ""
     email: string = ""
     password: string = ""
@@ -8,7 +8,7 @@ export class User {
 }
 
 export class Chat {
-    _id: string = ""
+    private  _id: string = ""
     chatName: string = ""
     participants: string[] = []
     get id() { return this._id }
@@ -21,7 +21,7 @@ export class WebsocketMessage {
 }
 
 export class Message {
-    _id: string = ""
+    private  _id: string = ""
     senderName: string = ""
     senderId: string = ""
     receiverId: string = ""
