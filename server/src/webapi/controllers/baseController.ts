@@ -24,7 +24,6 @@ export class BaseController {
 
             req.username = payload.username;
             req.id = payload.id
-
             next();
 
         } catch (e) {

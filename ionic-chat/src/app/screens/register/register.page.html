@@ -1,8 +1,8 @@
 <ion-content [ngSwitch]="currentStatus">
   <div class="container" *ngSwitchCase="Status.loaded">
-    <ion-button routerLink="/" class="back" fill="clear" shape="round">
-      <ion-icon name="arrow-back"></ion-icon>
-    </ion-button>
+    <ion-buttons class="back" slot="start">
+      <ion-back-button defaultHref="main"></ion-back-button>
+    </ion-buttons>
     <ion-card class="login elevation" mode="md">
       <ion-card-content>
         <h3>Registro</h3>

@@ -23,6 +23,12 @@ const routes: Routes = [
     canLoad: [AuthGuard]
 
   },
+  {
+    path: 'newChat',
+    loadChildren: () => import('./screens/new-chat/new-chat.module').then(m => m.NewChatPageModule),
+    canLoad: [AuthGuard]
+
+  },
 
 ];
 

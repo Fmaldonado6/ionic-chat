@@ -1,3 +1,4 @@
+import { EmptyComponent } from './components/empty/empty.component';
 import { InfoMessageComponent } from './components/info-message/info-message.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -7,7 +8,8 @@ import { IonicModule } from '@ionic/angular';
 
 @NgModule({
   declarations: [
-    InfoMessageComponent
+    InfoMessageComponent,
+    EmptyComponent
   ],
   imports: [
     CommonModule,
@@ -15,7 +17,8 @@ import { IonicModule } from '@ionic/angular';
 
   ],
   exports: [
-    InfoMessageComponent
+    InfoMessageComponent,
+    EmptyComponent
   ]
 })
 export class SharedModule { }

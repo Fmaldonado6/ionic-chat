@@ -13,15 +13,16 @@ class UsersController extends BaseController {
 
     config() {
         this.router.post("/", (req, res) => this.createUser(req, res))
-        this.router.get("/", (req, res) => this.createUser(req, res))
+        this.router.get("/", this.verifyToken, (req, res) => this.getUsers(req, res))
         this.router.post("/auth", (req, res) => this.authUser(req, res))
-        this.router.put("/:id", (req: Request, res) => this.updateUser(req, res))
+        this.router.put("/:id", this.verifyToken, (req: Request, res) => this.updateUser(req, res))
 
     }
 
     async getUsers(req: any, res: Response) {
         try {
             const tokenId = req.id
+
 
             const users = await usersRepository.findAll()
 
@@ -77,7 +78,7 @@ class UsersController extends BaseController {
                 {
                     username: user.username,
                     email: user.email,
-                    id: user.id
+                    id: savedUser.id
                 },
                 'chunchunmaru')
 
