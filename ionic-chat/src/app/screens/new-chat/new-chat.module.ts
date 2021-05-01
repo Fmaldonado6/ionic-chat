@@ -14,6 +14,11 @@ import { NewChatPage } from './new-chat.page';
     CommonModule,
     FormsModule,
     IonicModule,
+    /* 
+    Este modulo yo lo hice ahí se encuentran componentes
+    que vamos a usar en muchas pantallas, como los mensajes de 
+    error, agreguenlo a las pantallas nuevas que hagan 
+    */
     SharedModule,
     NewChatPageRoutingModule
   ],
