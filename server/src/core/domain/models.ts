@@ -15,6 +15,12 @@ export class Chat {
     set id(val: string) { this._id = val }
 }
 
+export class FullChatInfo {
+    chatId: string = ""
+    receiver?: User
+    messages: Message[] = []
+}
+
 export class WebsocketMessage {
     type: number = WebsocketMessageTypes.connection
     message: string = ""

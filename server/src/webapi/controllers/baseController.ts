@@ -3,6 +3,11 @@ import jwt from 'jsonwebtoken'
 import expressWs from 'express-ws';
 
 let instance = expressWs(express()).app
+
+export interface CustomRequest extends Request {
+    id: string
+}
+
 export class BaseController {
     public router: expressWs.Router = Router();
 
