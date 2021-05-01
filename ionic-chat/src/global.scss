@@ -41,6 +41,10 @@
 
 
 
+.ripple-parent {
+  position: relative;
+  overflow: hidden;
+}
 
 @media only screen and (min-width: 601px) {
   .container {

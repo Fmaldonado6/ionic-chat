@@ -1,3 +1,4 @@
+<!-- El header de la pantalla con botón para regresar -->
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
@@ -7,29 +8,62 @@
   </ion-toolbar>
 </ion-header>
 
+<!-- 
+  En el contenido de la pantalla declaramos un switch
+  que utilice la variable de currentStatus
+-->
+
 <ion-content [ngSwitch]="currentStatus">
+  <!-- Si el valos de currentStatus es loading muestra esto -->
   <div class="loading" *ngSwitchCase="Status.loading">
     <ion-spinner color="primary"></ion-spinner>
   </div>
 
+  <!-- Si el valos de currentStatus es empty muestra esto -->
   <div class="empty" *ngSwitchCase="Status.empty">
+    <!-- 
+      Este componente muestra el mensaje de vacío, pueden reutilizarlo solo
+      especifiquen el mensaje con el text=""
+    -->
     <empty text="No existen usuarios disponibles"></empty>
   </div>
 
+  <!-- Si el valos de currentStatus es error muestra esto -->
   <div class="error" *ngSwitchCase="Status.error">
     <empty text="No existen usuarios disponibles"></empty>
   </div>
 
-  <div class="loaded container">
+  <!-- Si el valos de currentStatus es loaded muestra esto -->
+  <div class="loaded container" *ngSwitchCase="Status.loaded">
+    <!-- 
+      Aqui utilizamos un ion-virtual-scroll que sirve para 
+      optimizar las listas con muchos elementos, usenlo pofavo
+
+      Primero se especifica el arreglo que queremos iterar, 
+      en este caso el de users, [items]="users"
+
+    -->
     <ion-virtual-scroll [items]="users">
-      <ion-item class="ripple-parent ion-activatable " *virtualItem="let user">
+      <!-- 
+        dentro del virtual scroll ponemos un ion-item
+        y declaramos una variable que representa el elemento actual
+        *virtualItem="let user"
+       -->
+      <ion-item class="ripple-parent ion-activatable" *virtualItem="let user">
+        <!-- 
+          Esta es lo visual, namas puse un icono al inicio, el nombre de usuario y un
+          icono al final
+         -->
         <div class="icon-container">
           <ion-icon name="person"></ion-icon>
         </div>
         {{ user.username }}
+        <!--
+           Esto es namas para el efecto que sale cuando le picas, si lo usan
+            asegurense de que el elemento padre tenga la clase ripple-parent
+        -->
         <ion-ripple-effect></ion-ripple-effect>
         <ion-icon class="send" name="send"></ion-icon>
-
       </ion-item>
     </ion-virtual-scroll>
   </div>

@@ -15,7 +15,9 @@ export class UsersService extends DataService {
   }
 
   register(user: User) {
-    return this.http.post<User>(`${this.url}/users`, user).pipe(catchError(this.handleError), map(e => Object.assign(new User(), e)))
+    return this.http.post<User>(`${this.url}/users`, user)
+      .pipe(catchError(this.handleError),
+        map(e => Object.assign(new User(), e)))
   }
 
   getUsers() {
