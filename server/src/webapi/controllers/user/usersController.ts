@@ -1,5 +1,5 @@
 import { usersRepository } from './../../../persistence/repositories/repositories';
-import { BaseController } from './../baseController';
+import { BaseController, CustomRequest } from './../baseController';
 import { Request, Response } from 'express';
 import { User } from '../../../core/domain/models';
 import bcrypt from 'bcryptjs';
@@ -15,7 +15,7 @@ class UsersController extends BaseController {
         this.router.post("/", (req, res) => this.createUser(req, res))
         this.router.get("/", this.verifyToken, (req, res) => this.getUsers(req, res))
         this.router.post("/auth", (req, res) => this.authUser(req, res))
-        this.router.put("/:id", this.verifyToken, (req: Request, res) => this.updateUser(req, res))
+        this.router.put("/", this.verifyToken, (req: Request, res) => this.updateUser(req as CustomRequest, res))
 
     }
 
@@ -43,7 +43,7 @@ class UsersController extends BaseController {
             const exists = await usersRepository.getByEmail(user.email)
 
             if (exists)
-                return res.sendStatus(400)
+                return res.sendStatus(409)
 
             const salt = await bcrypt.genSalt()
 
@@ -90,20 +90,44 @@ class UsersController extends BaseController {
         }
     }
 
-    async updateUser(req: any, res: Response) {
+    async updateUser(req: CustomRequest, res: Response) {
         try {
 
-            const paramsId = req.params.id
 
             const tokenId = req.id
 
-            if (paramsId != tokenId)
-                return res.sendStatus(403)
+            const user = req.body as User
+
+            const oldUserData = await usersRepository.get(tokenId)
+
+            if (!user.password || user.password == "")
+                user.password = oldUserData.password
+            else {
+                const salt = await bcrypt.genSalt()
+                user.password = await bcrypt.hash(user.password, salt)
+            }
+
+            if (!user.username || user.username == "")
+                user.username = oldUserData.username
+
+            if (!user.email || user.email == "")
+                user.email = oldUserData.email
+            else {
+                const exists = await usersRepository.getByEmail(user.email)
+
+                if (exists && exists.id != tokenId)
+                    return res.sendStatus(409)
+
+            }
+
+            await usersRepository.update(user)
 
 
-            return res.sendStatus(200)
+            return res.status(200).json(user)
+
         } catch (error) {
-
+            console.error(error)
+            res.sendStatus(500)
         }
 
     }

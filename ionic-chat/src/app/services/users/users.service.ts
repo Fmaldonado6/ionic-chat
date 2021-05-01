@@ -24,6 +24,12 @@ export class UsersService extends DataService {
         map(e => e.map(x => Object.assign(new User(), x))))
   }
 
+  updateUser(user: User) {
+    return this.http.put<User>(`${this.url}/users`, user)
+      .pipe(catchError(this.handleError),
+        map(e => Object.assign(new User(), e)))
+  }
+
   setToken(token: string) {
     localStorage.setItem(this.TOKEN_STRING, token);
   }

@@ -32,6 +32,12 @@ export class Message {
     set id(val: string) { this._id = val }
 }
 
+export class FullChatInfo {
+    chatId: string = ""
+    receiver?: User
+    messages: Message[] = []
+}
+
 export enum MessageType {
     text,
     image
