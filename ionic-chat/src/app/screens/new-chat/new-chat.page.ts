@@ -10,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 export class NewChatPage implements OnInit {
 
   /*
-   Variable Status splo contiene los estados que puede tener,
+   Variable Status solo contiene los estados que puede tener,
    estos pueden ser cargando, cargado, error, se declara aqui
    para usarla en el ngSwitch del HTML, esta declarada en la carpeta
    de models/models.ts
