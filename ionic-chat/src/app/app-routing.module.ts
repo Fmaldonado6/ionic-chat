@@ -29,6 +29,10 @@ const routes: Routes = [
     canLoad: [AuthGuard]
 
   },
+  {
+    path: 'chat',
+    loadChildren: () => import('./screens/chat/chat.module').then( m => m.ChatPageModule)
+  },
 
 ];
 

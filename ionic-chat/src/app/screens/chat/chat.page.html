@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="main"></ion-back-button>
+    </ion-buttons>
+    <ion-title>chat</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <div class="message-container">
+      <message></message>
+      <message [sender]="true"></message>
+      <message></message>
+      <message [sender]="true"></message>
+    </div>
+
+    <form class="input-container">
+      <input matInput placeholder="Escribe un mensaje" />
+      <button class="ripple-parent ion-activatable">
+        <ion-ripple-effect></ion-ripple-effect>
+
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+    </form>
+  </div>
+</ion-content>

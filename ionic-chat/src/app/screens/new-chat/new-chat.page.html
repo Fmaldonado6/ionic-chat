@@ -50,7 +50,12 @@
         y declaramos una variable que representa el elemento actual
         *virtualItem="let user"
        -->
-      <ion-item class="ripple-parent ion-activatable" *virtualItem="let user">
+      <ion-item
+        class="ripple-parent ion-activatable"
+        *virtualItem="let user"
+        
+        routerLink="/chat/{{user.id}}"
+      >
         <!-- 
           Esta es lo visual, namas puse un icono al inicio, el nombre de usuario y un
           icono al final
