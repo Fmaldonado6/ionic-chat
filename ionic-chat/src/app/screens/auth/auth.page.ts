@@ -54,6 +54,7 @@ export class AuthPage implements OnInit, ViewWillEnter {
 
     this.usersService.login(user).subscribe(e => {
       this.usersService.setToken(e)
+      this.usersService.loggedUser = this.usersService.getTokenInfo() as User
       this.changePage()
     })
   }

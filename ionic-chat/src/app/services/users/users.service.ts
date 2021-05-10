@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { DataService } from './../data.service';
 import { Injectable } from '@angular/core';
 import { catchError, map } from 'rxjs/internal/operators';
@@ -9,6 +10,14 @@ import { User } from 'src/app/models/models';
 export class UsersService extends DataService {
 
   TOKEN_STRING = "token-chat-app"
+  loggedUser: User
+
+  constructor(http: HttpClient) {
+    super(http)
+    const token = this.getTokenInfo() as User
+    if (token)
+      this.loggedUser = token
+  }
 
   login(user: User) {
     return this.http.post<string>(`${this.url}/users/auth`, user).pipe(catchError(this.handleError))
@@ -50,6 +59,10 @@ export class UsersService extends DataService {
 
   getTokenInfo() {
     let token = this.getToken();
+
+    if (!token)
+      return null
+
     let base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {

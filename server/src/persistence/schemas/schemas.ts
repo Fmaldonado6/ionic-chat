@@ -1,7 +1,7 @@
 import { model, Schema } from "mongoose";
 
 const ChatSchema = new Schema({
-    pacticipants: [String]
+    participants: [String]
 }).set('toObject', { getters: true })
 
 const MessageSchema = new Schema({

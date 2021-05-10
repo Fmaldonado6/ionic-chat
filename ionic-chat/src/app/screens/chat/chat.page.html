@@ -10,14 +10,23 @@
 <ion-content>
   <div class="container">
     <div class="message-container">
-      <message></message>
-      <message [sender]="true"></message>
-      <message></message>
-      <message [sender]="true"></message>
+      <message
+        *ngFor="let message of chat.messages"
+        [sender]="message.senderId == senderId"
+        [message]="message"
+      ></message>
     </div>
 
-    <form class="input-container">
-      <input matInput placeholder="Escribe un mensaje" />
+    <form
+      [formGroup]="form"
+      (ngSubmit)="sendMessage(form.value)"
+      class="input-container"
+    >
+      <input
+        formControlName="message"
+        matInput
+        placeholder="Escribe un mensaje"
+      />
       <button class="ripple-parent ion-activatable">
         <ion-ripple-effect></ion-ripple-effect>
 
