@@ -49,28 +49,13 @@
         dentro del virtual scroll ponemos un ion-item
         y declaramos una variable que representa el elemento actual
         *virtualItem="let user"
-       -->
-      <ion-item
-        class="ripple-parent ion-activatable"
-        *virtualItem="let user"
         
+       -->
+      <chat-item
+        *virtualItem="let user"
         routerLink="/chat/{{user.id}}"
-      >
-        <!-- 
-          Esta es lo visual, namas puse un icono al inicio, el nombre de usuario y un
-          icono al final
-         -->
-        <div class="icon-container">
-          <ion-icon name="person"></ion-icon>
-        </div>
-        {{ user.username }}
-        <!--
-           Esto es namas para el efecto que sale cuando le picas, si lo usan
-            asegurense de que el elemento padre tenga la clase ripple-parent
-        -->
-        <ion-ripple-effect></ion-ripple-effect>
-        <ion-icon class="send" name="send"></ion-icon>
-      </ion-item>
+        [label]="user.username"
+      ></chat-item>
     </ion-virtual-scroll>
   </div>
 </ion-content>

@@ -35,7 +35,10 @@ class ChatController extends BaseController {
                     user.password = ""
                 }
                 chat.chatName = user.username
-                chatsWithInfo.push(Object.assign(new Chat(), chat))
+                const fullInfo = new FullChatInfo()
+                fullInfo.chatId = chat.id
+                fullInfo.receiver = user
+                chatsWithInfo.push(fullInfo)
             }
 
             res.status(200).json(chatsWithInfo)

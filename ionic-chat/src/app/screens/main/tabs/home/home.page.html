@@ -1,0 +1,25 @@
+<ion-content [ngSwitch]="currentStatus">
+  <div class="container title-container">
+    <h1>Conversaciones</h1>
+  </div>
+  <div class="container" *ngSwitchCase="Status.loaded">
+    <ion-virtual-scroll [items]="chats">
+      <chat-item
+        *virtualItem="let chat"
+        routerLink="/chat/{{chat.receiver.id}}"
+        [label]="chat.receiver.username"
+      ></chat-item>
+    </ion-virtual-scroll>
+  </div>
+
+  <div class="status" *ngSwitchCase="Status.loading">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>
+
+  <div class="status" *ngSwitchCase="Status.empty">
+    <empty
+      text="No has iniciado ninguna conversación"
+      icon="chatbox-ellipses-outline"
+    ></empty>
+  </div>
+</ion-content>

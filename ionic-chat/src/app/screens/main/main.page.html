@@ -1,16 +1,18 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title class="container">Tus Chats</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-  <div class="container ion-text-center">
-    <ion-button (click)="signOut()" shape="round"> Salir alv </ion-button>
-  </div>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button routerLink="/newChat">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-</ion-content>
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="chats">
+      <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+      <ion-label>Conversaciones</ion-label>
+    </ion-tab-button>
+    <ion-tab-button> </ion-tab-button>
+    <ion-tab-button tab="account">
+      <ion-icon name="person-outline"></ion-icon>
+      <ion-label>Cuenta</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
+<ion-fab vertical="bottom" horizontal="center" slot="fixed">
+  <ion-fab-button routerLink="/newChat">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>

@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button (click)="goBack()"></ion-back-button>
+      <ion-back-button defaultHref="main" (click)="goBack()"></ion-back-button>
     </ion-buttons>
     <ion-title *ngIf="currentStatus == Status.loaded"
       >{{chat.receiver.username}}</ion-title

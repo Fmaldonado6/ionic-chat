@@ -1,4 +1,4 @@
-import { usersRepository } from './../../../persistence/repositories/repositories';
+import { usersRepository, chatRepository } from './../../../persistence/repositories/repositories';
 import { BaseController, CustomRequest } from './../baseController';
 import { Request, Response } from 'express';
 import { User } from '../../../core/domain/models';
@@ -23,10 +23,16 @@ class UsersController extends BaseController {
         try {
             const tokenId = req.id
 
-
             const users = await usersRepository.findAll()
+            const chats = await chatRepository.getByUserId(tokenId)
 
-            const filterUsers = users.filter(e => e.id != tokenId)
+            const chatsWith: string[] = []
+
+            chats.forEach(e => {
+                const id = e.participants.filter(p => p != tokenId).shift() as string
+                chatsWith.push(id)
+            })
+            const filterUsers = users.filter(e => chatsWith.includes(e.id) && e.id != tokenId)
 
             res.status(200).json(filterUsers)
 

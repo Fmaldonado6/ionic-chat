@@ -10,7 +10,7 @@ export class ChatsService extends DataService {
 
 
   getUserChats() {
-    return this.http.get<Chat[]>(`${this.url}/chat`).pipe(catchError(this.handleError),
+    return this.http.get<FullChatInfo[]>(`${this.url}/chat`).pipe(catchError(this.handleError),
       map(e => e.map(c => Object.assign(new Chat(), c))))
   }
 

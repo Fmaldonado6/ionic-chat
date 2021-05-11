@@ -1,3 +1,4 @@
+import { ChatItemComponent } from './components/chat-item/chat-item.component';
 import { EmptyComponent } from './components/empty/empty.component';
 import { InfoMessageComponent } from './components/info-message/info-message.component';
 import { NgModule } from '@angular/core';
@@ -9,7 +10,8 @@ import { IonicModule } from '@ionic/angular';
 @NgModule({
   declarations: [
     InfoMessageComponent,
-    EmptyComponent
+    EmptyComponent,
+    ChatItemComponent
   ],
   imports: [
     CommonModule,
@@ -18,7 +20,9 @@ import { IonicModule } from '@ionic/angular';
   ],
   exports: [
     InfoMessageComponent,
-    EmptyComponent
+    EmptyComponent,
+    ChatItemComponent
+
   ]
 })
 export class SharedModule { }
