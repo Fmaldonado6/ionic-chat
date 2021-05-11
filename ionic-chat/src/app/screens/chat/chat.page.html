@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="main"></ion-back-button>
+      <ion-back-button (click)="goBack()"></ion-back-button>
     </ion-buttons>
     <ion-title *ngIf="currentStatus == Status.loaded"
       >{{chat.receiver.username}}</ion-title
@@ -11,7 +11,7 @@
 
 <ion-content [ngSwitch]="currentStatus">
   <div class="container" *ngSwitchCase="Status.loaded">
-    <div class="message-container">
+    <div #chatContainer class="message-container">
       <message
         *ngFor="let message of chat.messages"
         [sender]="message.senderId == senderId"

@@ -1,4 +1,4 @@
-import { FullChatInfo } from './../../../core/domain/models';
+import { FullChatInfo, User } from './../../../core/domain/models';
 import { messageRepository, usersRepository } from './../../../persistence/repositories/repositories';
 import { BaseController, CustomRequest } from './../baseController';
 import { Request, Response } from 'express';
@@ -24,8 +24,21 @@ class ChatController extends BaseController {
         try {
             const id = req.id
             const chats = await chatRepository.getByUserId(id)
+            const chatsWithInfo = []
+            for (let chat of chats) {
+                let user: User = new User()
+                for (let participant of chat.participants) {
+                    if (participant == id)
+                        continue
 
-            res.status(200).json(chats)
+                    user = await usersRepository.get(participant)
+                    user.password = ""
+                }
+                chat.chatName = user.username
+                chatsWithInfo.push(Object.assign(new Chat(), chat))
+            }
+
+            res.status(200).json(chatsWithInfo)
 
         } catch (error) {
             console.error(error)

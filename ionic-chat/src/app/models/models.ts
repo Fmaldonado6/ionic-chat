@@ -9,6 +9,7 @@ export class User {
 
 export class Chat {
     private _id: string = ""
+    chatName: string = ""
     participants: string[] = []
     get id() { return this._id }
     set id(val: string) { this._id = val }

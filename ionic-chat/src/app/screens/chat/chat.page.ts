@@ -1,12 +1,12 @@
-import { PhotoService } from './../../services/photo/photo.service';
 import { UsersService } from 'src/app/services/users/users.service';
 import { FormGroup, FormControl } from '@angular/forms';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Route } from '@angular/router';
+import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { ChatsService } from 'src/app/services/chats/chats.service';
 import { WebsocketService } from 'src/app/services/websocket/websocket.service';
-import { Chat, FullChatInfo, Message, MessageType, Status, WebsocketMessage, WebsocketMessageTypes } from 'src/app/models/models';
+import { FullChatInfo, Message, MessageType, Status, WebsocketMessage, WebsocketMessageTypes } from 'src/app/models/models';
 import { Subscription } from 'rxjs';
+import { PhotoService } from 'src/app/services/photo/photo.service';
 
 interface FormData {
   message: string
@@ -18,6 +18,15 @@ interface FormData {
   styleUrls: ['./chat.page.scss'],
 })
 export class ChatPage implements OnInit, OnDestroy {
+  private chatContainer: ElementRef;
+
+  @ViewChild('chatContainer', { static: false }) set content(content: ElementRef) {
+    if (content) {
+      console.log(content)
+      this.chatContainer = content;
+    }
+  }
+
 
   form: FormGroup
   receiverId: string
@@ -32,7 +41,9 @@ export class ChatPage implements OnInit, OnDestroy {
     private usersService: UsersService,
     private route: ActivatedRoute,
     private websocketService: WebsocketService,
-    private photoService: PhotoService
+    private photoService: PhotoService,
+    private changeDetector: ChangeDetectorRef,
+    private router: Router
   ) { }
   ngOnDestroy(): void {
     if (this.subscription)
@@ -54,12 +65,24 @@ export class ChatPage implements OnInit, OnDestroy {
     this.chatService.getChatInfo(this.receiverId).subscribe(e => {
       this.chat = e
       this.currentStatus = Status.loaded
+      this.changeDetector.detectChanges()
+      this.scrollToBottom()
     })
 
     this.subscription = this.websocketService.message.subscribe(e => {
       if (e)
         this.chat.messages.push(e)
     })
+
+
+  }
+
+  goBack() {
+    this.router.navigate(["/main"])
+  }
+
+  scrollToBottom() {
+    this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight
   }
 
   fromToMessage(value: FormData, type = MessageType.image) {
@@ -77,6 +100,8 @@ export class ChatPage implements OnInit, OnDestroy {
     websocketMessage.message = JSON.stringify(message)
     this.websocketService.sendMessage(websocketMessage)
     this.chat.messages.push(message)
+    this.changeDetector.detectChanges()
+    this.scrollToBottom()
   }
 
   async takePhoto() {
