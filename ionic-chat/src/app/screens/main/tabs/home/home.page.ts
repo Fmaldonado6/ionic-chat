@@ -30,10 +30,6 @@ export class HomePage implements OnInit {
     this.getChats()
   }
 
-  signOut() {
-    this.usersService.signOut()
-    this.router.navigate(["/"])
-  }
 
   getChats() {
     this.chatService.getUserChats().subscribe(e => {

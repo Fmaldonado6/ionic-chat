@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { UsersService } from 'src/app/services/users/users.service';
 
 @Component({
   selector: 'app-account',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AccountPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    private usersService: UsersService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
   }
 
+
+  signOut() {
+    this.usersService.signOut()
+    this.router.navigate(["/"])
+  }
 }
