@@ -3,12 +3,14 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="main"></ion-back-button>
     </ion-buttons>
-    <ion-title>chat</ion-title>
+    <ion-title *ngIf="currentStatus == Status.loaded"
+      >{{chat.receiver.username}}</ion-title
+    >
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <div class="container">
+<ion-content [ngSwitch]="currentStatus">
+  <div class="container" *ngSwitchCase="Status.loaded">
     <div class="message-container">
       <message
         *ngFor="let message of chat.messages"
@@ -19,19 +21,31 @@
 
     <form
       [formGroup]="form"
-      (ngSubmit)="sendMessage(form.value)"
+      (ngSubmit)="fromToMessage(form.value)"
       class="input-container"
     >
+      <button
+        type="button"
+        class="ripple-parent ion-activatable"
+        (click)="takePhoto()"
+      >
+        <ion-ripple-effect></ion-ripple-effect>
+        <ion-icon name="camera"></ion-icon>
+      </button>
       <input
         formControlName="message"
         matInput
         placeholder="Escribe un mensaje"
       />
+
       <button class="ripple-parent ion-activatable">
         <ion-ripple-effect></ion-ripple-effect>
-
         <ion-icon name="arrow-forward"></ion-icon>
       </button>
     </form>
+  </div>
+
+  <div class="status" *ngSwitchCase="Status.loading">
+    <ion-spinner color="primary"></ion-spinner>
   </div>
 </ion-content>

@@ -79,6 +79,8 @@
   --ion-background-color: #ffffff;
 
   --ion-card-color: rgb(34, 34, 34);
+  --message-color: rgb(41, 41, 41);
+
 }
 
 @media (prefers-color-scheme: dark) {
@@ -155,6 +157,8 @@
 
     --ion-background-color: #121212;
     --ion-card-color: rgb(255, 255, 255);
+    --message-color: rgb(255, 255, 255);
+
   }
 
   /*

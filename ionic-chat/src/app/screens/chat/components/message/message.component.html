@@ -1,3 +1,9 @@
 <div [ngClass]="{ sender: sender }" class="message">
-  <span>{{ message.message }}</span>
+  <span *ngIf="message.messageType == MessageType.text">{{
+    message.message
+  }}</span>
+  <img
+    *ngIf="message.messageType == MessageType.image"
+    src="data:image/png;base64,{{ message.message }}"
+  />
 </div>
