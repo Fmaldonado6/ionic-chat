@@ -1,13 +1,14 @@
 import { UsersService } from 'src/app/services/users/users.service';
 import { User, Status } from 'src/app/models/models';
 import { Component, OnInit } from '@angular/core';
+import { ViewWillEnter } from '@ionic/angular';
 
 @Component({
   selector: 'app-new-chat',
   templateUrl: './new-chat.page.html',
   styleUrls: ['./new-chat.page.scss'],
 })
-export class NewChatPage implements OnInit {
+export class NewChatPage implements ViewWillEnter {
 
   /*
    Variable Status solo contiene los estados que puede tener,
@@ -37,7 +38,7 @@ export class NewChatPage implements OnInit {
 
 
   /* Al iniciar la pantalla llamamos a la funcion getUsers */
-  ngOnInit() {
+  ionViewWillEnter() {
     this.getUsers()
   }
 

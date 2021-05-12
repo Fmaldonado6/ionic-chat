@@ -25,6 +25,7 @@ class ChatController extends BaseController {
             const id = req.id
             const chats = await chatRepository.getByUserId(id)
             const chatsWithInfo = []
+
             for (let chat of chats) {
                 let user: User = new User()
                 for (let participant of chat.participants) {
@@ -55,16 +56,16 @@ class ChatController extends BaseController {
             const userId = req.id
             const receiverId = req.params.receiverId
 
+            const fullChat = new FullChatInfo()
             const chat = await chatRepository.getByUsersId(userId, receiverId)
-            const messages = await messageRepository.getByChatId(chat.id)
             const receiver = await usersRepository.get(receiverId)
             receiver.password = ""
-
-            const fullChat = new FullChatInfo()
-
+            fullChat.receiver = receiver
+            if (!chat)
+                return res.status(200).json(fullChat)
+                const messages = await messageRepository.getByChatId(chat.id)
             fullChat.chatId = chat.id
             fullChat.messages = messages
-            fullChat.receiver = receiver
 
             return res.status(200).json(fullChat)
 

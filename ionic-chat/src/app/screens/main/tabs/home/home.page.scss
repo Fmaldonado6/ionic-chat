@@ -11,8 +11,6 @@ ion-content {
   }
 }
 
-
-
 .status {
   width: 100vw;
   height: 80vh;
@@ -36,6 +34,10 @@ ion-content {
     transform: scale(1.25);
     color: white;
   }
+}
+
+ion-refresher {
+  position: relative !important;
 }
 
 ion-fab {

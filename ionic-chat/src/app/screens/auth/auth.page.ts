@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/models/models';
 import { Router } from '@angular/router';
-import { ViewWillEnter } from '@ionic/angular';
+import { NavController, ViewWillEnter } from '@ionic/angular';
 
 interface FormValues {
   email: string
@@ -16,7 +16,7 @@ interface FormValues {
   templateUrl: './auth.page.html',
   styleUrls: ['./auth.page.scss'],
 })
-export class AuthPage implements OnInit, ViewWillEnter {
+export class AuthPage implements ViewWillEnter {
 
   Status = Status
   currentStatus = Status.loading
@@ -24,12 +24,10 @@ export class AuthPage implements OnInit, ViewWillEnter {
 
   constructor(
     private usersService: UsersService,
-    private router: Router
+    private router: Router,
+    private navController: NavController
   ) { }
   ionViewWillEnter(): void {
-  }
-
-  ngOnInit() {
     if (this.usersService.loggedIn())
       return this.changePage()
 
@@ -47,6 +45,7 @@ export class AuthPage implements OnInit, ViewWillEnter {
 
 
 
+
   submitForm(values: FormValues) {
     const user = new User()
     user.email = values.email
@@ -60,7 +59,7 @@ export class AuthPage implements OnInit, ViewWillEnter {
   }
 
   changePage() {
-    this.router.navigate(["/main"])
+    this.navController.navigateRoot("/main")
   }
 
 }

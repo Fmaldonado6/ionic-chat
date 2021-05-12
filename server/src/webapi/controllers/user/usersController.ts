@@ -32,7 +32,7 @@ class UsersController extends BaseController {
                 const id = e.participants.filter(p => p != tokenId).shift() as string
                 chatsWith.push(id)
             })
-            const filterUsers = users.filter(e => chatsWith.includes(e.id) && e.id != tokenId)
+            const filterUsers = users.filter(e => !chatsWith.includes(e.id) && e.id != tokenId)
 
             res.status(200).json(filterUsers)
 

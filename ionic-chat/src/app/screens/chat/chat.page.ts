@@ -7,6 +7,7 @@ import { WebsocketService } from 'src/app/services/websocket/websocket.service';
 import { FullChatInfo, Message, MessageType, Status, WebsocketMessage, WebsocketMessageTypes } from 'src/app/models/models';
 import { Subscription } from 'rxjs';
 import { PhotoService } from 'src/app/services/photo/photo.service';
+import { ViewWillEnter } from '@ionic/angular';
 
 interface FormData {
   message: string
@@ -17,7 +18,7 @@ interface FormData {
   templateUrl: './chat.page.html',
   styleUrls: ['./chat.page.scss'],
 })
-export class ChatPage implements OnInit, OnDestroy {
+export class ChatPage implements ViewWillEnter, OnDestroy {
   private chatContainer: ElementRef;
 
   @ViewChild('chatContainer', { static: false }) set content(content: ElementRef) {
@@ -34,6 +35,8 @@ export class ChatPage implements OnInit, OnDestroy {
   senderId: string
   subscription: Subscription
 
+  newChat = true
+
   Status = Status
   currentStatus = Status.loading
   constructor(
@@ -45,14 +48,7 @@ export class ChatPage implements OnInit, OnDestroy {
     private changeDetector: ChangeDetectorRef,
     private router: Router
   ) { }
-  ngOnDestroy(): void {
-    if (this.subscription)
-      this.subscription.unsubscribe()
-  }
-
-
-  ngOnInit() {
-
+  ionViewWillEnter(): void {
     this.websocketService.connect()
 
     this.form = new FormGroup({
@@ -63,6 +59,7 @@ export class ChatPage implements OnInit, OnDestroy {
 
     this.receiverId = this.route.snapshot.params.id
     this.chatService.getChatInfo(this.receiverId).subscribe(e => {
+      this.newChat = e.chatId == ""
       this.chat = e
       this.currentStatus = Status.loaded
       this.changeDetector.detectChanges()
@@ -73,15 +70,19 @@ export class ChatPage implements OnInit, OnDestroy {
       if (e)
         this.chat.messages.push(e)
     })
-
-
   }
+  ngOnDestroy(): void {
+    if (this.subscription)
+      this.subscription.unsubscribe()
+  }
+
 
   goBack() {
     this.router.navigate(["/main"])
   }
 
   scrollToBottom() {
+    this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight
     this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight
   }
 
@@ -102,7 +103,12 @@ export class ChatPage implements OnInit, OnDestroy {
     this.chat.messages.push(message)
     this.changeDetector.detectChanges()
     this.scrollToBottom()
+
+    if (this.newChat)
+      this.chatService.addChat(this.chat)
   }
+
+
 
   async takePhoto() {
     const photo = await this.photoService.addNewToGallery()
