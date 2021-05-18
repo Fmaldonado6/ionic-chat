@@ -16,6 +16,7 @@ class UsersController extends BaseController {
         this.router.get("/", this.verifyToken, (req, res) => this.getUsers(req, res))
         this.router.post("/auth", (req, res) => this.authUser(req, res))
         this.router.put("/", this.verifyToken, (req: Request, res) => this.updateUser(req as CustomRequest, res))
+        this.router.put("/password", this.verifyToken, (req: Request, res) => this.updateUserPassword(req as CustomRequest, res))
 
     }
 
@@ -96,22 +97,42 @@ class UsersController extends BaseController {
         }
     }
 
+    async updateUserPassword(req: CustomRequest, res: Response) {
+        try {
+            const tokenId = req.id
+            const newPassword = req.body.newPassword
+            const oldPassword = req.body.oldPassword
+
+            const oldUserData = await usersRepository.get(tokenId)
+
+            const matches = await bcrypt.compare(oldPassword, oldUserData.password)
+
+            if (!matches)
+                return res.sendStatus(403)
+
+            const salt = await bcrypt.genSalt()
+            const hashedPassword = await bcrypt.hash(newPassword, oldPassword)
+
+            oldUserData.password = hashedPassword
+
+            await usersRepository.update(oldUserData)
+            oldUserData.password = ""
+            return res.status(200).json(oldUserData)
+
+        } catch (error) {
+
+        }
+    }
+
+
     async updateUser(req: CustomRequest, res: Response) {
         try {
 
 
             const tokenId = req.id
-
             const user = req.body as User
 
             const oldUserData = await usersRepository.get(tokenId)
-
-            if (!user.password || user.password == "")
-                user.password = oldUserData.password
-            else {
-                const salt = await bcrypt.genSalt()
-                user.password = await bcrypt.hash(user.password, salt)
-            }
 
             if (!user.username || user.username == "")
                 user.username = oldUserData.username
@@ -123,8 +144,9 @@ class UsersController extends BaseController {
 
                 if (exists && exists.id != tokenId)
                     return res.sendStatus(409)
-
             }
+
+            user.password = oldUserData.password
 
             await usersRepository.update(user)
 
