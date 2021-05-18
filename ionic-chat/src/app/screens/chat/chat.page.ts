@@ -104,8 +104,6 @@ export class ChatPage implements ViewWillEnter, OnDestroy {
     this.changeDetector.detectChanges()
     this.scrollToBottom()
 
-    if (this.newChat)
-      this.chatService.addChat(this.chat)
   }
 
 

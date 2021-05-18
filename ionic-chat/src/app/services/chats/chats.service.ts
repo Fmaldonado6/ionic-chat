@@ -10,18 +10,12 @@ import { BehaviorSubject } from 'rxjs';
 export class ChatsService extends DataService {
 
   private chats: FullChatInfo[] = []
-  createdChats = new BehaviorSubject<FullChatInfo[]>([])
 
-  addChat(chat: FullChatInfo) {
-    this.chats.push(chat)
-    this.createdChats.next([...this.chats])
-  }
 
   getUserChats() {
     return this.http.get<FullChatInfo[]>(`${this.url}/chat`).pipe(catchError(this.handleError),
       map(e => {
         this.chats = e.map(c => Object.assign(new FullChatInfo(), c))
-        this.createdChats.next(this.chats)
         return this.chats
       }))
   }
