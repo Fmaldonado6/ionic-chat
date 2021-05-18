@@ -1,5 +1,7 @@
+import { Platform, NavController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { DatabaseService } from 'src/app/services/database/database.service';
 import { UsersService } from 'src/app/services/users/users.service';
 
 @Component({
@@ -10,7 +12,10 @@ import { UsersService } from 'src/app/services/users/users.service';
 export class AccountPage implements OnInit {
 
   constructor(
-    private usersService: UsersService,
+    private databaseService: DatabaseService,
+    private navController: NavController,
+    private platform: Platform,
+    private activeRoute: ActivatedRoute,
     private router: Router
   ) { }
 
@@ -18,8 +23,12 @@ export class AccountPage implements OnInit {
   }
 
 
-  signOut() {
-    this.usersService.signOut()
-    this.router.navigate(["/"])
+  async signOut() {
+    this.navController.navigateRoot("/")
+    if (this.platform.is('capacitor'))
+      await this.databaseService.deleteToken()
+    else
+      this.databaseService.deleteTokenStorage()
+
   }
 }

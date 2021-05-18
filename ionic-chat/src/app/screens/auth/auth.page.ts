@@ -1,10 +1,11 @@
+import { DatabaseService } from './../../services/database/database.service';
 import { Status } from './../../models/models';
 import { UsersService } from 'src/app/services/users/users.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/models/models';
 import { Router } from '@angular/router';
-import { NavController, ViewWillEnter } from '@ionic/angular';
+import { NavController, Platform, ViewWillEnter } from '@ionic/angular';
 
 interface FormValues {
   email: string
@@ -24,11 +25,13 @@ export class AuthPage implements ViewWillEnter {
 
   constructor(
     private usersService: UsersService,
-    private router: Router,
+    private platform: Platform,
+    private databaseService: DatabaseService,
     private navController: NavController
   ) { }
   ionViewWillEnter(): void {
-    if (this.usersService.loggedIn())
+
+    if (this.databaseService.token)
       return this.changePage()
 
     this.currentStatus = Status.loaded
@@ -51,9 +54,12 @@ export class AuthPage implements ViewWillEnter {
     user.email = values.email
     user.password = values.password
 
-    this.usersService.login(user).subscribe(e => {
-      this.usersService.setToken(e)
-      this.usersService.loggedUser = this.usersService.getTokenInfo() as User
+    this.usersService.login(user).subscribe(async e => {
+      if (this.platform.is('capacitor'))
+        await this.databaseService.insertToken(e)
+      else
+        this.databaseService.insertTokenStorage(e)
+      this.usersService.loggedUser = this.usersService.getTokenInfo(e) as User
       this.changePage()
     })
   }

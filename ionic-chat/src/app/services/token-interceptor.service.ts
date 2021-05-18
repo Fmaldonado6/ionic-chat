@@ -1,3 +1,4 @@
+import { DatabaseService } from './database/database.service';
 import { UsersService } from 'src/app/services/users/users.service';
 import { Injectable } from '@angular/core';
 
@@ -6,12 +7,12 @@ import { Injectable } from '@angular/core';
 })
 export class TokenInterceptorService {
 
-  constructor(private usersService: UsersService) { }
+  constructor(private databaseService:DatabaseService) { }
 
 
   intercept(req, next) {
     let token = req;
-    const savedToken = this.usersService.getToken()
+    const savedToken = this.databaseService.token
     if (savedToken) {
       token = req.clone({
         setHeaders: {

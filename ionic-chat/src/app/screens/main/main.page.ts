@@ -1,6 +1,6 @@
 import { UsersService } from 'src/app/services/users/users.service';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Chat, FullChatInfo, Status } from 'src/app/models/models';
 import { Subscription } from 'rxjs';
 import { ChatsService } from 'src/app/services/chats/chats.service';
@@ -20,7 +20,7 @@ export class ChatsStatus {
 export class MainPage implements OnInit {
   private activeTab?: HTMLElement;
   constructor(
-    private websocketService: WebsocketService,
+    private websocketService: WebsocketService
   ) { }
 
   ngOnInit() {

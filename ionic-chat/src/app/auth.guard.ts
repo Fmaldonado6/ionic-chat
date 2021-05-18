@@ -17,12 +17,9 @@ export class AuthGuard implements CanLoad {
     route: Route,
     segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    const logged = this.usersService.loggedIn()
 
-    if (!logged)
-      this.router.navigate(["/"])
 
-    return logged
+    return true
   }
 
 

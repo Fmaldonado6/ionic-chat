@@ -1,3 +1,6 @@
-<ion-app>
-  <ion-router-outlet></ion-router-outlet>
+<ion-app [ngSwitch]="currentStatus">
+  <ion-router-outlet *ngSwitchCase="Status.loaded"></ion-router-outlet>
+  <div class="status" *ngSwitchCase="Status.loading">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>
 </ion-app>

@@ -12,12 +12,6 @@ export class UsersService extends DataService {
   TOKEN_STRING = "token-chat-app"
   loggedUser: User
 
-  constructor(http: HttpClient) {
-    super(http)
-    const token = this.getTokenInfo() as User
-    if (token)
-      this.loggedUser = token
-  }
 
   login(user: User) {
     return this.http.post<string>(`${this.url}/users/auth`, user).pipe(catchError(this.handleError))
@@ -41,24 +35,7 @@ export class UsersService extends DataService {
         map(e => Object.assign(new User(), e)))
   }
 
-  setToken(token: string) {
-    localStorage.setItem(this.TOKEN_STRING, token);
-  }
-
-  getToken() {
-    return localStorage.getItem(this.TOKEN_STRING)
-  }
-
-  loggedIn() {
-    return !!localStorage.getItem(this.TOKEN_STRING);
-  }
-
-  signOut() {
-    localStorage.removeItem(this.TOKEN_STRING)
-  }
-
-  getTokenInfo() {
-    let token = this.getToken();
+  getTokenInfo(token:string) {
 
     if (!token)
       return null
