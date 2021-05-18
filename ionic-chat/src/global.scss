@@ -32,8 +32,6 @@
   width: 90%;
 }
 
-
-
 .elevation {
   -webkit-box-shadow: 0px 14px 24px 0px rgba(0, 0, 0, 0.39);
   -moz-box-shadow: 0px 14px 24px 0px rgba(0, 0, 0, 0.39);
@@ -55,4 +53,15 @@
   .container {
     width: 70%;
   }
+}
+
+ion-content {
+  --ion-background-color: var(--secondary-background-color);
+}
+
+ion-tab-bar,
+ion-tab-button,
+ion-header,
+ion-toolbar {
+  --background: var(--background-color);
 }
