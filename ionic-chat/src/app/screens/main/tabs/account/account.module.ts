@@ -15,7 +15,8 @@ import { AccountPage } from './account.page';
     FormsModule,
     SharedModule,
     IonicModule,
-    AccountPageRoutingModule
+    AccountPageRoutingModule,
+    SharedModule
   ],
   declarations: [AccountPage]
 })

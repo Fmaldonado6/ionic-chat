@@ -4,6 +4,7 @@ import { InfoMessageComponent } from './components/info-message/info-message.com
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
+import { OptionTileComponent } from './components/option-tile/option-tile.component';
 
 
 
@@ -11,7 +12,8 @@ import { IonicModule } from '@ionic/angular';
   declarations: [
     InfoMessageComponent,
     EmptyComponent,
-    ChatItemComponent
+    ChatItemComponent,
+    OptionTileComponent
   ],
   imports: [
     CommonModule,
@@ -21,7 +23,8 @@ import { IonicModule } from '@ionic/angular';
   exports: [
     InfoMessageComponent,
     EmptyComponent,
-    ChatItemComponent
+    ChatItemComponent,
+    OptionTileComponent
 
   ]
 })

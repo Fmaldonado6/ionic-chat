@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { DatabaseService } from 'src/app/services/database/database.service';
 import { UsersService } from 'src/app/services/users/users.service';
 
+
 @Component({
   selector: 'app-account',
   templateUrl: './account.page.html',
