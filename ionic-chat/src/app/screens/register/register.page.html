@@ -5,16 +5,19 @@
     </ion-buttons>
     <ion-card class="login elevation" mode="md">
       <ion-card-content>
-        <h3>Registro</h3>
+        <h3>Registro.</h3>
         <form [formGroup]="form" (ngSubmit)="submitForm(form.value)">
+
           <ion-item>
             <ion-label position="floating">Email</ion-label>
             <ion-input formControlName="email" required></ion-input>
           </ion-item>
+
           <ion-item>
             <ion-label position="floating">Nombre de usuario</ion-label>
             <ion-input formControlName="username" required></ion-input>
           </ion-item>
+
           <ion-item>
             <ion-label position="floating">Contraseña</ion-label>
             <ion-input
@@ -23,6 +26,7 @@
               formControlName="password"
             ></ion-input>
           </ion-item>
+
           <ion-item>
             <ion-label position="floating">Confirmar Contraseña</ion-label>
             <ion-input
@@ -64,4 +68,5 @@
       (clickEvent)="retry()"
     ></info-message>
   </div>
+
 </ion-content>
