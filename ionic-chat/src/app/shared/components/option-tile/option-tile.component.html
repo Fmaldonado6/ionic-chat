@@ -1,19 +1,13 @@
 <!-- <div class="title-container">
   <h1>HOLAAAAAAAAA</h1>
 </div> -->
-<br><br><br><br><br><br>
-<ion-list>
-  <ion-item>
-    <ion-label class="elementos">Elemento 1</ion-label>
-  </ion-item>
 
-  <ion-item>
-    <ion-label class="elementos">Elemento 2</ion-label>
-  </ion-item>
-
-  <ion-item>
-    <ion-label class="elementos">Elemento 3</ion-label>
-  </ion-item>
-</ion-list>
-
-<p>NOTA: lo que escribes en option-tile.html se ve con lo de account.page.html</p>
+<!-- Este es el diseño directo de chat-item -->
+<div lines="none" class="ripple-parent ion-activatable chat">
+  <ion-ripple-effect></ion-ripple-effect>
+  <div class="icon-container">
+    <ion-icon name="person"></ion-icon>
+  </div>
+  {{ label }}
+  <ion-icon class="send" name="send"></ion-icon>
+</div>
