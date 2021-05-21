@@ -1,7 +1,7 @@
 import { catchError, map } from 'rxjs/internal/operators';
 import { DataService } from './../data.service';
 import { Injectable } from '@angular/core';
-import { Chat, FullChatInfo } from 'src/app/models/models';
+import { Chat, ChatResource, FullChatInfo } from 'src/app/models/models';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -9,15 +9,11 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class ChatsService extends DataService {
 
-  private chats: FullChatInfo[] = []
 
 
   getUserChats() {
-    return this.http.get<FullChatInfo[]>(`${this.url}/chat`).pipe(catchError(this.handleError),
-      map(e => {
-        this.chats = e.map(c => Object.assign(new FullChatInfo(), c))
-        return this.chats
-      }))
+    return this.http.get<ChatResource[]>(`${this.url}/chat`).pipe(catchError(this.handleError),
+      map(e => e.map(x => Object.assign(new ChatResource(), x))))
   }
 
   getChatInfo(receiverId: string) {

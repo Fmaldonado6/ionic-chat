@@ -1,7 +1,7 @@
 import { UsersService } from 'src/app/services/users/users.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Chat, FullChatInfo, Status } from 'src/app/models/models';
+import { Chat, FullChatInfo, Status, User } from 'src/app/models/models';
 import { Subscription } from 'rxjs';
 import { ChatsService } from 'src/app/services/chats/chats.service';
 import { WebsocketService } from 'src/app/services/websocket/websocket.service';
@@ -19,12 +19,15 @@ export class ChatsStatus {
 })
 export class MainPage implements OnInit {
   private activeTab?: HTMLElement;
+  loggedUser = new User()
   constructor(
-    private websocketService: WebsocketService
+    private websocketService: WebsocketService,
+    private usersService: UsersService
   ) { }
 
   ngOnInit() {
     this.websocketService.connect()
+    this.loggedUser = this.usersService.loggedUser
   }
 
   tabChange(tabsRef: IonTabs) {

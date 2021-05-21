@@ -16,8 +16,7 @@ export class WebsocketService {
   constructor(private usersService: UsersService) { }
 
   connect() {
-
-
+   
     this.websocket = new WebSocket(`ws://${environment.base_url.split("//").pop()}/websocket/message`)
     const webSocketMessage = new WebsocketMessage();
     webSocketMessage.type = WebsocketMessageTypes.connection

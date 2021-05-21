@@ -3,6 +3,21 @@
   <div class="icon-container">
     <ion-icon name="person"></ion-icon>
   </div>
-  {{ label }}
-  <ion-icon class="send" name="send"></ion-icon>
+  <div class="content">
+    {{ label }}
+    <span *ngIf="latestMessage">
+      {{ myId == latestMessage.senderId ? "Tú: " : label + ": " }}
+      {{
+        latestMessage.messageType == MessageType.text
+          ? latestMessage.message
+          : "Archivo adjunto"
+      }}</span
+    >
+  </div>
+  <div class="last-icons-container">
+    <div class="notification-container" *ngIf="newMessageCounter > 0">
+      <span>{{ newMessageCounter }}</span>
+    </div>
+    <ion-icon class="send" name="send"></ion-icon>
+  </div>
 </div>

@@ -83,7 +83,7 @@ class UsersController extends BaseController {
 
             let token = jwt.sign(
                 {
-                    username: user.username,
+                    username: savedUser.username,
                     email: user.email,
                     id: savedUser.id
                 },

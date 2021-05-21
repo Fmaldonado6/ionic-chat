@@ -21,6 +21,13 @@ export class FullChatInfo {
     messages: Message[] = []
 }
 
+export class ChatResource {
+    chatId: string = ""
+    receiverId: string = ""
+    receiverName: string = ""
+    latestMessage: Message = new Message()
+}
+
 export class WebsocketMessage {
     type: number = WebsocketMessageTypes.connection
     message: string = ""
@@ -34,7 +41,7 @@ export class Message {
     chatId: string = ""
     message: string = ""
     messageType: number = MessageType.text
-
+    created_at: Date = new Date()
     get id() { return this._id }
     set id(val: string) { this._id = val }
 }

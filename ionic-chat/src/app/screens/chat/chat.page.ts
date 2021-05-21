@@ -18,7 +18,7 @@ interface FormData {
   templateUrl: './chat.page.html',
   styleUrls: ['./chat.page.scss'],
 })
-export class ChatPage implements ViewWillEnter, OnDestroy {
+export class ChatPage implements ViewWillEnter, OnDestroy, OnInit {
   private chatContainer: ElementRef;
 
   @ViewChild('chatContainer', { static: false }) set content(content: ElementRef) {
@@ -39,6 +39,7 @@ export class ChatPage implements ViewWillEnter, OnDestroy {
 
   Status = Status
   currentStatus = Status.loading
+
   constructor(
     private chatService: ChatsService,
     private usersService: UsersService,
@@ -48,6 +49,14 @@ export class ChatPage implements ViewWillEnter, OnDestroy {
     private changeDetector: ChangeDetectorRef,
     private router: Router
   ) { }
+  ngOnInit(): void {
+    this.subscription = this.websocketService.message.subscribe(e => {
+      if (e) {
+        this.chat.messages.push(e)
+        this.scrollToBottom()
+      }
+    })
+  }
   ionViewWillEnter(): void {
     this.websocketService.connect()
 
@@ -66,10 +75,7 @@ export class ChatPage implements ViewWillEnter, OnDestroy {
       this.scrollToBottom()
     })
 
-    this.subscription = this.websocketService.message.subscribe(e => {
-      if (e)
-        this.chat.messages.push(e)
-    })
+
   }
   ngOnDestroy(): void {
     if (this.subscription)
@@ -82,14 +88,17 @@ export class ChatPage implements ViewWillEnter, OnDestroy {
   }
 
   scrollToBottom() {
-    this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight
-    this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight
+    if (this.chatContainer){
+      this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight
+      this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight
+    }
   }
 
   fromToMessage(value: FormData, type = MessageType.image) {
     this.form.patchValue({ message: "" })
     const message = new Message()
     message.message = value.message
+    message.senderName = this.usersService.loggedUser.username
     message.receiverId = this.receiverId
     message.senderId = this.usersService.loggedUser.id
     this.sendMessage(message)
@@ -115,6 +124,7 @@ export class ChatPage implements ViewWillEnter, OnDestroy {
     message.receiverId = this.receiverId
     message.messageType = MessageType.image
     message.senderId = this.usersService.loggedUser.id
+    message.senderName = this.usersService.loggedUser.username
     this.sendMessage(message)
   }
 

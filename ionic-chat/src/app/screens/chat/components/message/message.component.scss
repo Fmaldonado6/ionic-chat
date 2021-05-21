@@ -13,8 +13,12 @@
     overflow: hidden;
     height: auto;
   }
+}
+
+.image {
+  padding: 8px;
   img {
-    margin: 10px 0px;
+    border-radius: 6px;
   }
 }
 

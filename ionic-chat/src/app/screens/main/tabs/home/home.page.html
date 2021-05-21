@@ -10,11 +10,14 @@
 
   
   <div class="container" *ngSwitchCase="Status.loaded">
-    <ion-virtual-scroll [items]="chats">
+    <ion-virtual-scroll [trackBy]="trackById" #chatsContainer [items]="chats">
       <chat-item
         *virtualItem="let chat"
-        routerLink="/chat/{{chat.receiver.id}}"
-        [label]="chat.receiver.username"
+        [newMessageCounter]="chat.newMessages"
+        [latestMessage]="chat.latestMessage"
+        routerLink="/chat/{{chat.receiverId}}"
+        [myId]="loggedUser.id"
+        [label]="chat.receiverName"
       ></chat-item>
     </ion-virtual-scroll>
   </div>
