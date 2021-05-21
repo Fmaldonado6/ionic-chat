@@ -1,4 +1,4 @@
-import { FullChatInfo, User } from './../../../core/domain/models';
+import { FullChatInfo, User, ChatResource } from './../../../core/domain/models';
 import { messageRepository, usersRepository } from './../../../persistence/repositories/repositories';
 import { BaseController, CustomRequest } from './../baseController';
 import { Request, Response } from 'express';
@@ -36,10 +36,13 @@ class ChatController extends BaseController {
                     user.password = ""
                 }
                 chat.chatName = user.username
-                const fullInfo = new FullChatInfo()
-                fullInfo.chatId = chat.id
-                fullInfo.receiver = user
-                chatsWithInfo.push(fullInfo)
+                const chatResource = new ChatResource()
+                const latest = await messageRepository.getLatestMessageFromChat(chat.id)
+                chatResource.chatId = chat.id
+                chatResource.receiverId = user.id
+                chatResource.receiverName = user.username
+                chatResource.latestMessage = latest
+                chatsWithInfo.push(chatResource)
             }
 
             res.status(200).json(chatsWithInfo)
@@ -63,7 +66,7 @@ class ChatController extends BaseController {
             fullChat.receiver = receiver
             if (!chat)
                 return res.status(200).json(fullChat)
-                const messages = await messageRepository.getByChatId(chat.id)
+            const messages = await messageRepository.getByChatId(chat.id)
             fullChat.chatId = chat.id
             fullChat.messages = messages
 

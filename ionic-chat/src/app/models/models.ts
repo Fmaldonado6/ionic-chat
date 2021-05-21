@@ -7,9 +7,17 @@ export class User {
     set id(val: string) { this._id = val }
 }
 
-export class Passwords{
-  oldPassword: string = ''
-  newPassword: string = ''
+export class Passwords {
+    oldPassword: string = ''
+    newPassword: string = ''
+}
+
+export class ChatResource {
+    chatId: string = ""
+    receiverId: string = ""
+    receiverName: string = ""
+    latestMessage: Message = new Message()
+    newMessages = 0
 }
 
 export class Chat {

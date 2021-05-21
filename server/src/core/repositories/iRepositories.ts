@@ -7,6 +7,7 @@ export interface IChatRepository extends IRepository<Chat> {
 
 export interface IMessageRepository extends IRepository<Message> {
     getByChatId(id: string): Promise<Message[]>
+    getLatestMessageFromChat(id: string): Promise<Message>
 }
 
 export interface IUserRepository extends IRepository<User> {

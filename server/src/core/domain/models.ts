@@ -21,6 +21,13 @@ export class FullChatInfo {
     messages: Message[] = []
 }
 
+export class ChatResource {
+    chatId: string = ""
+    receiverId: string = ""
+    receiverName: string = ""
+    latestMessage: Message = new Message()
+}
+
 export class WebsocketMessage {
     type: number = WebsocketMessageTypes.connection
     message: string = ""
