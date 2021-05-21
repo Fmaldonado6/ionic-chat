@@ -18,7 +18,7 @@ interface FormData {
   templateUrl: './chat.page.html',
   styleUrls: ['./chat.page.scss'],
 })
-export class ChatPage implements ViewWillEnter, OnDestroy {
+export class ChatPage implements ViewWillEnter, OnDestroy, OnInit {
   private chatContainer: ElementRef;
 
   @ViewChild('chatContainer', { static: false }) set content(content: ElementRef) {
@@ -48,6 +48,14 @@ export class ChatPage implements ViewWillEnter, OnDestroy {
     private changeDetector: ChangeDetectorRef,
     private router: Router
   ) { }
+  ngOnInit(): void {
+    this.subscription = this.websocketService.message.subscribe(e => {
+      if (e) {
+        this.chat.messages.push(e)
+        this.scrollToBottom()
+      }
+    })
+  }
   ionViewWillEnter(): void {
     this.websocketService.connect()
 
@@ -66,10 +74,7 @@ export class ChatPage implements ViewWillEnter, OnDestroy {
       this.scrollToBottom()
     })
 
-    this.subscription = this.websocketService.message.subscribe(e => {
-      if (e)
-        this.chat.messages.push(e)
-    })
+
   }
   ngOnDestroy(): void {
     if (this.subscription)
@@ -82,8 +87,8 @@ export class ChatPage implements ViewWillEnter, OnDestroy {
   }
 
   scrollToBottom() {
-    this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight
-    this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight
+    if (this.chatContainer)
+      this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight
   }
 
   fromToMessage(value: FormData, type = MessageType.image) {
