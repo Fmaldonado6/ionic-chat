@@ -45,6 +45,8 @@ class ChatController extends BaseController {
                 chatsWithInfo.push(chatResource)
             }
 
+            chatsWithInfo.sort((a, b) => new Date(b.latestMessage.created_at).getTime() - new Date(a.latestMessage.created_at).getTime())
+
             res.status(200).json(chatsWithInfo)
 
         } catch (error) {

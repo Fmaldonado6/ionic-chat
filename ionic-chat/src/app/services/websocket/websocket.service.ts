@@ -31,7 +31,6 @@ export class WebsocketService {
 
     this.websocket.onmessage = (msg: any) => {
       const wsMessage = JSON.parse(msg.data) as Message
-      console.log(msg)
       this.message.next(wsMessage)
     }
 

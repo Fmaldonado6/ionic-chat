@@ -39,6 +39,7 @@ export class ChatPage implements ViewWillEnter, OnDestroy, OnInit {
 
   Status = Status
   currentStatus = Status.loading
+
   constructor(
     private chatService: ChatsService,
     private usersService: UsersService,
@@ -87,14 +88,17 @@ export class ChatPage implements ViewWillEnter, OnDestroy, OnInit {
   }
 
   scrollToBottom() {
-    if (this.chatContainer)
+    if (this.chatContainer){
       this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight
+      this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight
+    }
   }
 
   fromToMessage(value: FormData, type = MessageType.image) {
     this.form.patchValue({ message: "" })
     const message = new Message()
     message.message = value.message
+    message.senderName = this.usersService.loggedUser.username
     message.receiverId = this.receiverId
     message.senderId = this.usersService.loggedUser.id
     this.sendMessage(message)
@@ -120,6 +124,7 @@ export class ChatPage implements ViewWillEnter, OnDestroy, OnInit {
     message.receiverId = this.receiverId
     message.messageType = MessageType.image
     message.senderId = this.usersService.loggedUser.id
+    message.senderName = this.usersService.loggedUser.username
     this.sendMessage(message)
   }
 

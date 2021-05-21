@@ -5,8 +5,9 @@
   .message-container {
     overflow: auto;
     height: 100%;
-    display:flex;
-    overflow: scroll; height: xyz;
+    display: flex;
+    overflow-y: scroll;
+    height: xyz;
     flex-direction: column;
 
     message:first-child {
@@ -28,7 +29,7 @@
       border: none;
       flex: 2;
       outline: none;
-      margin:0px 10px;
+      margin: 0px 10px;
     }
 
     button {

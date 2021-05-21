@@ -1,4 +1,10 @@
-<div [ngClass]="{ sender: sender }" class="message">
+<div
+  [ngClass]="{
+    sender: sender,
+    image: message.messageType == MessageType.image
+  }"
+  class="message"
+>
   <span *ngIf="message.messageType == MessageType.text">{{
     message.message
   }}</span>

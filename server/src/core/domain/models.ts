@@ -41,7 +41,7 @@ export class Message {
     chatId: string = ""
     message: string = ""
     messageType: number = MessageType.text
-
+    created_at: Date = new Date()
     get id() { return this._id }
     set id(val: string) { this._id = val }
 }

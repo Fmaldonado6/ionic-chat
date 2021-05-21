@@ -22,7 +22,7 @@ class ChatRepository extends Repository<Chat> implements IChatRepository {
 
 class MessageRepository extends Repository<Message> implements IMessageRepository {
     async getLatestMessageFromChat(id: string): Promise<Message> {
-        return this.getModel().findOne({ chatId: id, _id: -1 })
+        return (await this.getModel().find({ chatId: id })).pop()
     }
     async getByChatId(id: string): Promise<Message[]> {
         return this.getModel().find({ chatId: id });

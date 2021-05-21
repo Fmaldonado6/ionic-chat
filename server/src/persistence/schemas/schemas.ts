@@ -10,7 +10,8 @@ const MessageSchema = new Schema({
     chatId: String,
     message: String,
     messageType: Number
-}).set('toObject', { getters: true })
+}, { timestamps: { createdAt: 'created_at' } })
+.set('toObject', { getters: true })
 
 const UserSchema = new Schema({
     username: String,
