@@ -1,14 +1,8 @@
-<!-- <div class="title-container">
-  <h1>HOLAAAAAAAAA</h1>
-</div> -->
 
-<!-- Este es el diseño directo de chat-item -->
 <div lines="none" class="ripple-parent ion-activatable chat">
   <ion-ripple-effect></ion-ripple-effect>
   <div class="icon-container">
-    <ion-icon name="person"></ion-icon>
+    <ion-icon [name]="icon"></ion-icon>
   </div>
   {{ label }}
-  <ion-icon class="send" name="send"></ion-icon>
-  <!-- {{icon}} -->
 </div>
