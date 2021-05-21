@@ -3,14 +3,17 @@ ion-content {
 }
 
 .title-container {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   h1 {
     font-size: 30px !important;
     font-weight: 300;
   }
+  display: flex;
+  justify-content: space-around;
+  align-items:center;
 }
-
+ 
 .status {
   width: 100vw;
   height: 80vh;
