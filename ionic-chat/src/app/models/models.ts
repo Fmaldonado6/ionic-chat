@@ -7,6 +7,11 @@ export class User {
     set id(val: string) { this._id = val }
 }
 
+export class Passwords{
+  oldPassword: string = ''
+  newPassword: string = ''
+}
+
 export class Chat {
     private _id: string = ""
     chatName: string = ""

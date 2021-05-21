@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-option-tile',
@@ -6,6 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./option-tile.component.scss'],
 })
 export class OptionTileComponent implements OnInit {
+
+  @Input() label: string
+  @Input() icon: string
 
   constructor() { }
 

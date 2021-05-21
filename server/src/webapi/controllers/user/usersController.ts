@@ -111,7 +111,7 @@ class UsersController extends BaseController {
                 return res.sendStatus(403)
 
             const salt = await bcrypt.genSalt()
-            const hashedPassword = await bcrypt.hash(newPassword, oldPassword)
+            const hashedPassword = await bcrypt.hash(newPassword, salt)
 
             oldUserData.password = hashedPassword
 
@@ -120,7 +120,8 @@ class UsersController extends BaseController {
             return res.status(200).json(oldUserData)
 
         } catch (error) {
-
+            console.error(error);
+            res.sendStatus(500)
         }
     }
 

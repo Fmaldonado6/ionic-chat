@@ -1,3 +1,4 @@
+import { Passwords } from './../../models/models';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from './../data.service';
 import { Injectable } from '@angular/core';
@@ -33,6 +34,12 @@ export class UsersService extends DataService {
     return this.http.put<User>(`${this.url}/users`, user)
       .pipe(catchError(this.handleError),
         map(e => Object.assign(new User(), e)))
+  }
+
+  updateUserPassword(passwords: Passwords){
+    return this.http.put<Passwords>(`${this.url}/users/password`, passwords)
+      .pipe(catchError(this.handleError),
+      map(e => Object.assign(new Passwords(), e)))
   }
 
   getTokenInfo(token:string) {

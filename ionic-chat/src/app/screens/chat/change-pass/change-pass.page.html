@@ -1,3 +1,12 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="main"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Cambiar contraseña</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content [ngSwitch]="currentStatus">
   <div class="container" *ngSwitchCase="Status.loaded">
     <ion-buttons class="back" slot="start">
@@ -5,28 +14,21 @@
     </ion-buttons>
     <ion-card class="login elevation" mode="md">
       <ion-card-content>
-        <h3>Registro</h3>
+        <h3>Cambiar contraseña</h3>
         <form [formGroup]="form" (ngSubmit)="submitForm(form.value)">
-
           <ion-item>
-            <ion-label position="floating">Email</ion-label>
-            <ion-input formControlName="email" required></ion-input>
+            <ion-label position="floating">Contraseña anterior</ion-label>
+            <ion-input formControlName="oldPassword" required></ion-input>
           </ion-item>
 
           <ion-item>
-            <ion-label position="floating">Nombre de usuario</ion-label>
-            <ion-input formControlName="username" required></ion-input>
-          </ion-item>
-
-          <ion-item>
-            <ion-label position="floating">Contraseña</ion-label>
+            <ion-label position="floating">Contraseña nueva</ion-label>
             <ion-input
               type="password"
               autocomplete="off"
-              formControlName="password"
+              formControlName="newPassword"
             ></ion-input>
           </ion-item>
-
           <ion-item>
             <ion-label position="floating">Confirmar Contraseña</ion-label>
             <ion-input
@@ -42,7 +44,7 @@
             shape="round"
             [disabled]="!form.valid"
           >
-            Register
+            Confirmar
           </ion-button>
         </form>
       </ion-card-content>
@@ -62,11 +64,10 @@
 
   <div class="message" *ngSwitchCase="Status.error">
     <info-message
-      title="Ocurrió un error al crear el usuario"
+      title="Ocurrió un error al cambiar la contraseña"
       accept="reintentar"
       [type]="Types.badRequest"
       (clickEvent)="retry()"
     ></info-message>
   </div>
-
 </ion-content>
