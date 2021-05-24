@@ -1,6 +1,6 @@
-import { Passwords } from './../../../models/models';
-import { Types } from '../../../shared/components/info-message/info-message.component';
-import { Status } from '../../../models/models';
+import { Passwords } from '../../models/models';
+import { Types } from '../../shared/components/info-message/info-message.component';
+import { Status } from '../../models/models';
 import { UsersService } from 'src/app/services/users/users.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';

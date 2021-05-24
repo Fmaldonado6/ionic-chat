@@ -27,8 +27,8 @@ const routes: Routes = [
     loadChildren: () => import('./screens/chat/chat.module').then(m => m.ChatPageModule)
   },
   {
-    path: 'change-pass',
-    loadChildren: () => import('./screens/chat/change-pass/change-pass.module').then( m => m.ChangePassPageModule)
+    path: 'password',
+    loadChildren: () => import('./screens/change-pass/change-pass.module').then( m => m.ChangePassPageModule)
   },
 
 

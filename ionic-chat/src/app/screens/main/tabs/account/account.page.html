@@ -1,16 +1,24 @@
 <ion-content class="content">
-<ion-header>
-  <ion-toolbar>
-    <div class="container title-container">
-      <ion-title class="titulo">Cuenta <ion-icon name="person-circle-outline" size="large"></ion-icon></ion-title>
-    </div>
-  </ion-toolbar>
-</ion-header>
+  <ion-header>
+    <ion-toolbar>
+      <div class="container title-container">
+        <ion-title class="titulo"
+          >Cuenta <ion-icon name="person-circle-outline" size="large"></ion-icon
+        ></ion-title>
+      </div>
+    </ion-toolbar>
+  </ion-header>
 
-<ion-content>
-  <app-option-tile></app-option-tile>
-  <ion-button (click)="signOut()" expand="block" shape="round">
-    Salir
-  </ion-button>
-</ion-content>
+  <ion-content>
+    <div class="container">
+      <app-option-tile label="Editar usuario" icon="person"></app-option-tile>
+      <app-option-tile  routerLink="/password" label="Cambiar Contraseña" icon="key"></app-option-tile>
+      <app-option-tile  label="Eliminar Cuenta" icon="trash"></app-option-tile>
+      <app-option-tile
+        label="Cerrar sesión"
+        (click)="signOut()"
+        icon="power"
+      ></app-option-tile>
+    </div>
+  </ion-content>
 </ion-content>
