@@ -1,14 +1,12 @@
-<ion-content [ngSwitch]="currentStatus">
-  <ion-header>
+<ion-header>
   <ion-toolbar>
     <div class="container title-container">
-      <h1>Conversaciones <ion-icon name="chatbubble-ellipses-outline"></ion-icon></h1> 
+      <span> Conversaciones </span>
+      <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
     </div>
   </ion-toolbar>
 </ion-header>
-
-
-  
+<ion-content [ngSwitch]="currentStatus">
   <div class="container" *ngSwitchCase="Status.loaded">
     <ion-virtual-scroll [trackBy]="trackById" #chatsContainer [items]="chats">
       <chat-item
