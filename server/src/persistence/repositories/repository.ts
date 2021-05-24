@@ -19,11 +19,12 @@ export abstract class Repository<T extends object> implements IRepository<T> {
     async update(object: T): Promise<T> {
         let objectAny = object as any;
         let id = objectAny._id
-        return await this.getModel().findByIdAndUpdate(id, objectAny) as T;
+        delete objectAny._id
+        return this.getModel().findByIdAndUpdate(id, objectAny) as T;
 
     }
     async delete(id: string): Promise<T> {
-        return await this.getModel().findByIdAndDelete(id);
+        return this.getModel().findByIdAndDelete(id);
 
     }
 

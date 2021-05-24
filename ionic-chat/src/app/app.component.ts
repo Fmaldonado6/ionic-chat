@@ -63,8 +63,10 @@ export class AppComponent {
 
       const user = this.usersService.getTokenInfo(token)
       this.databaseService.token = token
-      this.usersService.loggedUser = user
-      this.currentStatus = Status.loaded
+      this.usersService.getUserInfo(user.id).subscribe(e => {
+        this.usersService.setUser(e)
+        this.currentStatus = Status.loaded
+      })
     } catch (error) {
       this.currentStatus = Status.loaded
       this.navController.navigateRoot("")

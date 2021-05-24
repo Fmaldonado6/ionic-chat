@@ -4,6 +4,7 @@ import { DataService } from './../data.service';
 import { Injectable } from '@angular/core';
 import { catchError, map } from 'rxjs/internal/operators';
 import { User } from 'src/app/models/models';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,12 @@ export class UsersService extends DataService {
 
   TOKEN_STRING = "token-chat-app"
   loggedUser: User
+  userChanged = new BehaviorSubject<User>(null)
 
+  setUser(user: User) {
+    this.loggedUser = user
+    this.userChanged.next(user)
+  }
 
   login(user: User) {
     return this.http.post<string>(`${this.url}/users/auth`, user).pipe(catchError(this.handleError))
@@ -22,6 +28,10 @@ export class UsersService extends DataService {
     return this.http.post<User>(`${this.url}/users`, user)
       .pipe(catchError(this.handleError),
         map(e => Object.assign(new User(), e)))
+  }
+
+  getUserInfo(id: string) {
+    return this.http.get<User>(`${this.url}/users/${id}`).pipe(catchError(this.handleError))
   }
 
   getUsers() {
@@ -36,13 +46,13 @@ export class UsersService extends DataService {
         map(e => Object.assign(new User(), e)))
   }
 
-  updateUserPassword(passwords: Passwords){
+  updateUserPassword(passwords: Passwords) {
     return this.http.put<Passwords>(`${this.url}/users/password`, passwords)
       .pipe(catchError(this.handleError),
-      map(e => Object.assign(new Passwords(), e)))
+        map(e => Object.assign(new Passwords(), e)))
   }
 
-  getTokenInfo(token:string) {
+  getTokenInfo(token: string) {
 
     if (!token)
       return null

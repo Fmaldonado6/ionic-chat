@@ -78,13 +78,10 @@
   --ion-color-light-tint: #f5f6f9;
   --ion-background-color: #ffffff;
 
-  --ion-card-color: rgb(34, 34, 34);
   --message-color: rgb(41, 41, 41);
-  --background-color:#ffffff;
-  --secondary-background-color:#fafafa;
-
-
-
+  --background-color: #ffffff;
+  --ion-card-color: rgb(34, 34, 34);
+  --secondary-background-color: #fafafa;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -159,12 +156,11 @@
     --ion-color-light-tint: #383a3e;
     --bg-light: rgb(53, 46, 46);
 
-    --background-color:#242529;
-    --secondary-background-color:#202125;
+    --background-color: #242529;
+    --secondary-background-color: #202125;
 
     --ion-card-color: rgb(255, 255, 255);
     --message-color: rgb(255, 255, 255);
-
   }
 
   /*

@@ -14,6 +14,7 @@ class UsersController extends BaseController {
     config() {
         this.router.post("/", (req, res) => this.createUser(req, res))
         this.router.get("/", this.verifyToken, (req, res) => this.getUsers(req, res))
+        this.router.get("/:id", this.verifyToken, (req, res) => this.getUser(req, res))
         this.router.post("/auth", (req, res) => this.authUser(req, res))
         this.router.put("/", this.verifyToken, (req: Request, res) => this.updateUser(req as CustomRequest, res))
         this.router.put("/password", this.verifyToken, (req: Request, res) => this.updateUserPassword(req as CustomRequest, res))
@@ -36,6 +37,24 @@ class UsersController extends BaseController {
             const filterUsers = users.filter(e => !chatsWith.includes(e.id) && e.id != tokenId)
 
             res.status(200).json(filterUsers)
+
+        } catch (error) {
+            console.error(error)
+            res.sendStatus(500)
+        }
+    }
+
+    async getUser(req: Request, res: Response) {
+        try {
+
+            const id = req.params.id
+
+            const user = await usersRepository.get(id)
+
+            if (!user)
+                return res.sendStatus(404)
+
+            res.status(200).json(user)
 
         } catch (error) {
             console.error(error)
@@ -132,27 +151,26 @@ class UsersController extends BaseController {
 
             const tokenId = req.id
             const user = req.body as User
-
             const oldUserData = await usersRepository.get(tokenId)
 
-            if (!user.username || user.username == "")
-                user.username = oldUserData.username
+            if (user.username && user.username != "")
+                oldUserData.username = user.username
 
-            if (!user.email || user.email == "")
-                user.email = oldUserData.email
-            else {
-                const exists = await usersRepository.getByEmail(user.email)
+            if (user.email && user.email != "")
+                oldUserData.email = user.email
+                
+            const exists = await usersRepository.getByEmail(user.email)
 
-                if (exists && exists.id != tokenId)
-                    return res.sendStatus(409)
-            }
+            if (exists && exists.id != tokenId)
+                return res.sendStatus(409)
 
-            user.password = oldUserData.password
+            console.log(oldUserData)
 
-            await usersRepository.update(user)
+            await usersRepository.update(oldUserData)
 
+            oldUserData.password = ""
 
-            return res.status(200).json(user)
+            return res.status(200).json(oldUserData)
 
         } catch (error) {
             console.error(error)

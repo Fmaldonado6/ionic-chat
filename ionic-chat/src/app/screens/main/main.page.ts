@@ -1,5 +1,5 @@
 import { UsersService } from 'src/app/services/users/users.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Chat, FullChatInfo, Status, User } from 'src/app/models/models';
 import { Subscription } from 'rxjs';
@@ -17,17 +17,24 @@ export class ChatsStatus {
   templateUrl: './main.page.html',
   styleUrls: ['./main.page.scss'],
 })
-export class MainPage implements OnInit {
+export class MainPage implements OnInit, OnDestroy {
   private activeTab?: HTMLElement;
   loggedUser = new User()
+  subscription: Subscription
   constructor(
     private websocketService: WebsocketService,
     private usersService: UsersService
   ) { }
+  ngOnDestroy(): void {
+    if (this.subscription)
+      this.subscription.unsubscribe()
+  }
 
   ngOnInit() {
     this.websocketService.connect()
-    this.loggedUser = this.usersService.loggedUser
+    this.subscription = this.usersService.userChanged.asObservable().subscribe(e => {
+      this.loggedUser = e
+    })
   }
 
   tabChange(tabsRef: IonTabs) {

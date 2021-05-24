@@ -7,6 +7,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
 import { User } from 'src/app/models/models';
 import { Router } from '@angular/router';
+import { Conflict } from 'src/app/models/exceptions';
 interface FormValues {
   oldPassword: string
   newPassword: string
@@ -28,7 +29,7 @@ export class ChangePassPage implements OnInit {
   constructor(
     private usersService: UsersService,
     private toastController: ToastController,
-    private router: Router
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -54,15 +55,22 @@ export class ChangePassPage implements OnInit {
 
     passwords.oldPassword = values.oldPassword;
     passwords.newPassword = values.newPassword;
-    
-    this.usersService.updateUserPassword(passwords).subscribe(e => {
+
+    this.usersService.updateUserPassword(passwords).subscribe(async e => {
       this.currentStatus = Status.success
 
-      setTimeout(() => {
-        this.changePage()
-      }, 2000);
-    }, () => {
-      this.currentStatus = Status.error
+
+    }, async e => {
+
+      if (e instanceof Conflict) {
+        const toast = await this.toastController.create({
+          message: "El email ingresado ya existe",
+          duration: 2000
+        })
+        toast.present()
+      }
+      else
+        this.currentStatus = Status.error
 
     })
   }
@@ -72,7 +80,7 @@ export class ChangePassPage implements OnInit {
   }
 
   changePage() {
-    console.log("Yes")
-    this.router.navigate(["/"])
+    this.currentStatus = Status.loaded
+    this.router.navigate(["/main/account"])
   }
 }
