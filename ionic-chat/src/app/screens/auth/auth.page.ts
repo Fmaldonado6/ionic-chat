@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/models/models';
 import { Router } from '@angular/router';
-import { NavController, Platform, ViewWillEnter } from '@ionic/angular';
+import { NavController, Platform, ViewWillEnter, ToastController } from '@ionic/angular';
 
 interface FormValues {
   email: string
@@ -27,7 +27,8 @@ export class AuthPage implements ViewWillEnter {
     private usersService: UsersService,
     private platform: Platform,
     private databaseService: DatabaseService,
-    private navController: NavController
+    private navController: NavController,
+    public toastController: ToastController
   ) { }
   ionViewWillEnter(): void {
 
@@ -61,6 +62,13 @@ export class AuthPage implements ViewWillEnter {
         this.databaseService.insertTokenStorage(e)
       this.usersService.loggedUser = this.usersService.getTokenInfo(e) as User
       this.changePage()
+    }, async () => {
+      const toast = await this.toastController.create({
+        message: "Usuario o contraseña incorrectos",
+        duration: 2000
+      })
+
+      toast.present()
     })
   }
 
