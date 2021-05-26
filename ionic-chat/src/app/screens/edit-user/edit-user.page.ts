@@ -30,10 +30,12 @@ export class EditUserPage implements OnInit {
   ngOnInit() {
     this.form = new FormGroup({
       username: new FormControl(this.usersService.loggedUser.username, [
-        Validators.required
+        Validators.required,
+        Validators.pattern(/^[a-z|0-9]/i)
       ]),
       email: new FormControl(this.usersService.loggedUser.email, [
-        Validators.required
+        Validators.required,
+        Validators.email
       ])
     })
   }

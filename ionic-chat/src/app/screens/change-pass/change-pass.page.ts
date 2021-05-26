@@ -38,7 +38,8 @@ export class ChangePassPage implements OnInit {
         Validators.required
       ]),
       newPassword: new FormControl('', [
-        Validators.required
+        Validators.required,
+        Validators.pattern(/[a-zA-Z0-9]+/)
       ]),
       confirmPassword: new FormControl('', [
         Validators.required
@@ -49,8 +50,10 @@ export class ChangePassPage implements OnInit {
   async submitForm(values: FormValues) {
     //Error si las contraseñas (nueva y confirmar nueva) no coinciden
     if (values.confirmPassword != values.newPassword)
-      return (await this.toastController.create({ message: "Passwords don't match!", duration: 2000 })).present()
+      return (await this.toastController.create({ message: "Las contraseñas no coinciden!", duration: 2000 })).present()
 
+    if (values.newPassword.length < 8)
+      return (await this.toastController.create({ message: "La contraseña debe tener al menos 8 caracteres", duration: 2000 })).present()
     //Cambia el status para que se muestre un spinner
     this.currentStatus = Status.loading
     let passwords = new Passwords();
@@ -75,7 +78,7 @@ export class ChangePassPage implements OnInit {
         this.currentStatus = Status.loaded
       }
       else
-      //se cambia el status para que se muestre el error
+        //se cambia el status para que se muestre el error
         this.currentStatus = Status.error
 
     })

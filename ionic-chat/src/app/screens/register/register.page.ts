@@ -37,10 +37,11 @@ export class RegisterPage implements OnInit {
     this.form = new FormGroup({
       email: new FormControl('', [
         Validators.required,
-        Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)
+        Validators.email
       ]),
       username: new FormControl('', [
         Validators.required,
+        Validators.pattern(/^[a-z|0-9]/i)
       ]),
       password: new FormControl('', [
         Validators.required,
@@ -54,9 +55,9 @@ export class RegisterPage implements OnInit {
 
   async submitForm(values: FormValues) {
     if (values.confirmPassword != values.password)
-      return (await this.toastController.create({ message: "Passwords don't match!", duration: 2000 })).present()
+      return (await this.toastController.create({ message: "Las contraseñas no coinciden", duration: 2000 })).present()
     if (values.password.length < 8)
-      return (await this.toastController.create({ message: "Password must be 8 characters", duration: 2000 })).present()
+      return (await this.toastController.create({ message: "La contraseña debe tener al menos 8 caracteres", duration: 2000 })).present()
     this.currentStatus = Status.loading
     const user = new User()
     user.email = values.email

@@ -56,12 +56,6 @@ export class AuthPage implements ViewWillEnter {
     user.password = values.password
 
     this.usersService.login(user).subscribe(async e => {
-
-
-      if (!e)
-        return
-
-      console.log(e)
       if (this.platform.is('capacitor'))
         await this.databaseService.insertToken(e)
       else
