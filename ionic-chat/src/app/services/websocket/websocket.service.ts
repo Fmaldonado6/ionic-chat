@@ -16,8 +16,12 @@ export class WebsocketService {
   constructor(private usersService: UsersService) { }
 
   connect() {
-   
-    this.websocket = new WebSocket(`ws://${environment.base_url.split("//").pop()}/websocket/message`)
+
+    let string = `ws://${environment.base_url.split("//").pop()}/websocket/message`
+
+    if (environment.production)
+      string = `wss://${environment.base_url.split("//").pop()}/websocket/message`
+    this.websocket = new WebSocket(string)
     const webSocketMessage = new WebsocketMessage();
     webSocketMessage.type = WebsocketMessageTypes.connection
     webSocketMessage.message = this.usersService.loggedUser.id

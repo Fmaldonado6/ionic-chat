@@ -33,6 +33,10 @@ class ChatController extends BaseController {
                         continue
 
                     user = await usersRepository.get(participant)
+
+                    if (!user)
+                        continue
+
                     user.password = ""
                 }
                 chat.chatName = user.username
