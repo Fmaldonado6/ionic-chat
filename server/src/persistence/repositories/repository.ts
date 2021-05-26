@@ -9,9 +9,11 @@ export abstract class Repository<T extends object> implements IRepository<T> {
         return await this.getModel().create(objectAny);
     }
 
-    async get(id: string): Promise<T> {
-        let object: T = (await this.getModel().findById(id)).toObject() as T;
-        return object;
+    async get(id: string): Promise<T | null> {
+        let object = (await this.getModel().findById(id));
+        if (!object)
+            return null
+        return object.toObject() as T;
     }
     async findAll(): Promise<T[]> {
         return (await this.getModel().find()).map(e => e.toObject());

@@ -27,7 +27,7 @@ class ChatController extends BaseController {
             const chatsWithInfo = []
 
             for (let chat of chats) {
-                let user: User = new User()
+                let user: User | null = null
                 for (let participant of chat.participants) {
                     if (participant == id)
                         continue
@@ -37,8 +37,13 @@ class ChatController extends BaseController {
                     if (!user)
                         continue
 
+
                     user.password = ""
                 }
+                
+                if (!user)
+                    continue
+
                 chat.chatName = user.username
                 const chatResource = new ChatResource()
                 const latest = await messageRepository.getLatestMessageFromChat(chat.id)
@@ -68,6 +73,8 @@ class ChatController extends BaseController {
             const fullChat = new FullChatInfo()
             const chat = await chatRepository.getByUsersId(userId, receiverId)
             const receiver = await usersRepository.get(receiverId)
+            if (!receiver)
+                return res.sendStatus(404)
             receiver.password = ""
             fullChat.receiver = receiver
             if (!chat)

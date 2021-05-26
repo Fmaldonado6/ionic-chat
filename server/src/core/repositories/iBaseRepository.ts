@@ -2,7 +2,7 @@ import { Model } from "mongoose";
 
 export interface IRepository<T extends any> {
 
-    get(id: string): Promise<T>;
+    get(id: string): Promise<T | null>;
 
     add(object: T): Promise<T>;
 

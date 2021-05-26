@@ -56,11 +56,17 @@ export class AuthPage implements ViewWillEnter {
     user.password = values.password
 
     this.usersService.login(user).subscribe(async e => {
+
+
+      if (!e)
+        return
+
+      console.log(e)
       if (this.platform.is('capacitor'))
         await this.databaseService.insertToken(e)
       else
         this.databaseService.insertTokenStorage(e)
-      this.usersService.loggedUser = this.usersService.getTokenInfo(e) as User
+      this.usersService.setUser(this.usersService.getTokenInfo(e) as User)
       this.changePage()
     }, async () => {
       const toast = await this.toastController.create({

@@ -124,6 +124,9 @@ class UsersController extends BaseController {
 
             const oldUserData = await usersRepository.get(tokenId)
 
+            if (!oldUserData)
+                return res.sendStatus(404)
+
             const matches = await bcrypt.compare(oldPassword, oldUserData.password)
 
             if (!matches)
@@ -153,12 +156,15 @@ class UsersController extends BaseController {
             const user = req.body as User
             const oldUserData = await usersRepository.get(tokenId)
 
+            if (!oldUserData)
+                return res.sendStatus(404)
+
             if (user.username && user.username != "")
                 oldUserData.username = user.username
 
             if (user.email && user.email != "")
                 oldUserData.email = user.email
-                
+
             const exists = await usersRepository.getByEmail(user.email)
 
             if (exists && exists.id != tokenId)
