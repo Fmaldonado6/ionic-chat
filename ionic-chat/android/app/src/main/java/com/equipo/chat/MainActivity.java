@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package com.equipo.chat;
 
 import android.os.Bundle;
 
