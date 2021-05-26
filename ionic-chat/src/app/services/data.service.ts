@@ -1,3 +1,4 @@
+import { Forbidden } from './../models/exceptions';
 import { environment } from 'src/environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -23,6 +24,9 @@ export class DataService {
 
     if (error.status === 409)
       return throwError(new Conflict(error));
+
+    if (error.status === 403)
+      return throwError(new Forbidden(error))
 
     return throwError(new AppError(error));
   }
