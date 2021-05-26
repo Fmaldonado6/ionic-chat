@@ -6,6 +6,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
 import { User } from 'src/app/models/models';
 import { Router } from '@angular/router';
+import { Conflict } from 'src/app/models/exceptions';
 
 interface FormValues {
   email: string
@@ -70,8 +71,17 @@ export class RegisterPage implements OnInit {
       setTimeout(() => {
         this.changePage()
       }, 2000);
-    }, () => {
-      this.currentStatus = Status.error
+    }, async (e) => {
+      if (e instanceof Conflict) {
+        const toast = await this.toastController.create({
+          message: "El email ingresado ya existe",
+          duration: 2000
+        })
+        toast.present()
+        this.currentStatus = Status.loaded
+      }
+      else
+        this.currentStatus = Status.error
 
     })
   }
