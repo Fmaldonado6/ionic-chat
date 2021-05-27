@@ -24,7 +24,7 @@ export class ChangePassPage implements OnInit {
   Status = Status
   Types = Types
   currentStatus = Status.loaded
-
+//Se inyectan los servicios que se utilizarán
   constructor(
     private usersService: UsersService,
     private toastController: ToastController,
@@ -34,13 +34,16 @@ export class ChangePassPage implements OnInit {
   ngOnInit() {
     //se crea el formulario
     this.form = new FormGroup({
+      //contraseña antigua requerida
       oldPassword: new FormControl('', [
         Validators.required
       ]),
+      //contraseña nueva con patron aceptado
       newPassword: new FormControl('', [
         Validators.required,
         Validators.pattern(/[a-zA-Z0-9]+/)
       ]),
+      //confirmacion de contraseña que debe ser igual a la anterior
       confirmPassword: new FormControl('', [
         Validators.required
       ])
