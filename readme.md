@@ -18,7 +18,7 @@
 
 - [Web](https://fmaldonado6.github.io/ionic-chat/)
 
-- [Android]()
+- [Android](https://github.com/Fmaldonado6/ionic-chat/releases/tag/v1.0)
 
 
 ## Pasos para ejecutar el server localmente
