@@ -16,6 +16,7 @@ export class WebsocketService {
   constructor(private usersService: UsersService) { }
 
   connect() {
+    console.log(environment.websocketUrl)
     //Se establece una nueva conexión al websocket y se crea un mensaje de conectado
     this.websocket = new WebSocket(environment.websocketUrl)
     const webSocketMessage = new WebsocketMessage();

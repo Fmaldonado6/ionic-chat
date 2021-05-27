@@ -38,6 +38,7 @@ export class HomePage implements ViewWillEnter, OnDestroy, OnInit {
 
     //Nos suscribimos a los mensajes recibidos del websocket
     this.subscription = this.websocketService.message.asObservable().subscribe(e => {
+      console.log(e)
       //Si el mensaje es nulo no hacemos nada
       if (!e)
         return

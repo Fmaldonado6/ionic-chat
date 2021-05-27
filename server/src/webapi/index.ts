@@ -38,7 +38,6 @@ class Server {
 
     }
 
-
     start() {
         const port = this.app.get(PORT)
         this.app.listen(port, () => {

@@ -51,7 +51,8 @@ export class ChatPage implements ViewWillEnter, OnDestroy, OnInit {
   ) { }
   ngOnInit(): void {
     this.subscription = this.websocketService.message.subscribe(e => {
-      if (e && e.senderId == this.chat.receiver.id) {
+      console.log(e)
+      if (e && e.senderId == this.receiverId) {
         this.chat.messages.push(e)
         this.scrollToBottom()
       }
