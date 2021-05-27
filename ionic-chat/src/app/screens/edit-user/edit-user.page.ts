@@ -28,6 +28,7 @@ export class EditUserPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    //Iniciar el formulario
     this.form = new FormGroup({
       username: new FormControl(this.usersService.loggedUser.username, [
         Validators.required,
@@ -41,15 +42,24 @@ export class EditUserPage implements OnInit {
   }
 
   submitForm(values: any) {
+    //Se cambia el estado a cargando
     this.currentStatus = Status.loading
+    //Se crea un objeto User con la informacion del formulario
     const user = new User()
     user.email = values.email
     user.username = values.username
 
+    //Se llama al service UpdateUser
     this.usersService.updateUser(user).subscribe(e => {
+      //Cambiamos el estado a success
       this.currentStatus = Status.success
+      //Cambiamos la informacion del usuario actual
       this.usersService.setUser(e)
     }, async e => {
+
+      //Si recibimos un error y es de tipo Conflict
+      //es por que ya hay un usuario con ese email
+      //si no mostramos el error
       if (e instanceof Conflict) {
         const toast = await this.toastController.create({
           message: "El email ingresado ya existe",
@@ -63,12 +73,14 @@ export class EditUserPage implements OnInit {
     })
   }
 
+  //Regresa a la pagina de cuenta
   changePage() {
     this.router.navigate(["/main/account"])
     this.currentStatus = Status.loaded
 
   }
 
+  //Vuelve a mostrar el formulario
   retry() {
     this.currentStatus = Status.loaded
   }

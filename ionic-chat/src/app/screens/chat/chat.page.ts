@@ -50,26 +50,34 @@ export class ChatPage implements ViewWillEnter, OnDestroy, OnInit {
     private router: Router
   ) { }
   ngOnInit(): void {
+    //Nos suscribimos a los mensajes entrantes
     this.subscription = this.websocketService.message.subscribe(e => {
-      console.log(e)
+      //Si el mensaje pertenece al chat lo agregamos a la lista
       if (e && e.senderId == this.receiverId) {
         this.chat.messages.push(e)
         this.scrollToBottom()
       }
     })
   }
+
   ionViewWillEnter(): void {
+    //Se conecta al websocket
     this.websocketService.connect()
 
+    //Se inicia el form
     this.form = new FormGroup({
       message: new FormControl('')
     })
 
+    //Se establecen los id de los participantes
     this.senderId = this.usersService.loggedUser.id
-
     this.receiverId = this.route.snapshot.params.id
+
+    //Obtenemos la información completa del chat
     this.chatService.getChatInfo(this.receiverId).subscribe(e => {
+      //Verificamos si es un chat nuevo o ya existente
       this.newChat = e.chatId == ""
+      //Guardamos la informacion del chat
       this.chat = e
       this.currentStatus = Status.loaded
       this.changeDetector.detectChanges()
@@ -78,16 +86,19 @@ export class ChatPage implements ViewWillEnter, OnDestroy, OnInit {
 
 
   }
+  //Se desuscribe de los mensajes entrantes
   ngOnDestroy(): void {
     if (this.subscription)
       this.subscription.unsubscribe()
   }
 
 
+  //Se regresa a la pagina principal
   goBack() {
     this.router.navigate(["/main"])
   }
 
+  //Scroll hasta el final de la sección de mensajes
   scrollToBottom() {
     if (this.chatContainer) {
       this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight
@@ -95,21 +106,34 @@ export class ChatPage implements ViewWillEnter, OnDestroy, OnInit {
     }
   }
 
-  fromToMessage(value: FormData, type = MessageType.image) {
+  //Mandamos mensaje de texto
+  formMessage(value: FormData) {
+    //Reiniciamos el formulario
     this.form.patchValue({ message: "" })
+    //Creamos mensaje nuevo
     const message = new Message()
+    //Establecemos el mensaje
     message.message = value.message
+    //Establecemos el nombre del que lo envia
     message.senderName = this.usersService.loggedUser.username
+    //Establecemos los id de los participantes
     message.receiverId = this.receiverId
     message.senderId = this.usersService.loggedUser.id
+    //Enviamos el mensaje
     this.sendMessage(message)
   }
 
+  //Enviar mensajes por el websocket
   sendMessage(message: Message) {
+    //Creamos un nuevo mensaje de websocket
     const websocketMessage = new WebsocketMessage()
+    //Especificamos el tipo de mensaje
     websocketMessage.type = WebsocketMessageTypes.send
+    //Convertimos a string el mensaje
     websocketMessage.message = JSON.stringify(message)
+    //Convertimos a string el mensaje
     this.websocketService.sendMessage(websocketMessage)
+    //Agregamos el mensaje a la lista de mensajes
     this.chat.messages.push(message)
     this.changeDetector.detectChanges()
     this.scrollToBottom()
@@ -117,15 +141,22 @@ export class ChatPage implements ViewWillEnter, OnDestroy, OnInit {
   }
 
 
-
+  //Función para tomor fotos
   async takePhoto() {
+    //Espera a que el service tome la foto
     const photo = await this.photoService.addNewToGallery()
+    //Creamos un mensaje nuevo
     const message = new Message()
+    //Establecemos el mensaje como el string de la foto
     message.message = photo.base64String
-    message.receiverId = this.receiverId
+    //Cambiamos el tipo a imagen
     message.messageType = MessageType.image
+    //Establecemos los id de los participantes
+    message.receiverId = this.receiverId
     message.senderId = this.usersService.loggedUser.id
+    //Establecemos el nombre de quien lo envia
     message.senderName = this.usersService.loggedUser.username
+    //Enviamos el mensaje
     this.sendMessage(message)
   }
 
