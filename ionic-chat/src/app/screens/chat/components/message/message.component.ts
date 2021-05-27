@@ -7,8 +7,9 @@ import { Message, MessageType } from 'src/app/models/models';
   styleUrls: ['./message.component.scss'],
 })
 export class MessageComponent implements OnInit {
-
+  //Identifica si el mensaje fue enviado por el usuario actual
   @Input() sender = false
+  //Información del mensaje
   @Input() message: Message
   MessageType = MessageType
 

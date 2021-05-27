@@ -32,9 +32,11 @@ export class AuthPage implements ViewWillEnter {
   ) { }
   ionViewWillEnter(): void {
 
+    //Si existe un token entonces no es necesario el login y cambiamos a la pantalla de inicio
     if (this.databaseService.token)
       return this.changePage()
 
+    //Si no existe un token establecemos el estado a cargando e iniciamos el formulario
     this.currentStatus = Status.loaded
 
     this.form = new FormGroup({
@@ -51,18 +53,24 @@ export class AuthPage implements ViewWillEnter {
 
 
   submitForm(values: FormValues) {
+
+    //Al dar clic en iniciar sesión obtenemos los valores del form y los ponemos en un objeto user
     const user = new User()
     user.email = values.email
     user.password = values.password
-
+    //Usamos el objeto user para hacer un post al backend a través del usersService
     this.usersService.login(user).subscribe(async e => {
+      //Si el login fue exitoso guardamos el token en sqlite o localstorage dependiendo de la plataforma
       if (this.platform.is('capacitor'))
         await this.databaseService.insertToken(e)
       else
         this.databaseService.insertTokenStorage(e)
+
+      //Obtenemos y guardamos la información del token
       this.usersService.setUser(this.usersService.getTokenInfo(e) as User)
       this.changePage()
     }, async () => {
+      //Si el login no es exitoso mandamos un toast de valores incorrectos
       const toast = await this.toastController.create({
         message: "Usuario o contraseña incorrectos",
         duration: 2000
@@ -71,7 +79,7 @@ export class AuthPage implements ViewWillEnter {
       toast.present()
     })
   }
-
+  //Redirecciona a la pagina principal
   changePage() {
     this.navController.navigateRoot("/main")
   }

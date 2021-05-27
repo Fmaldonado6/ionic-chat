@@ -10,18 +10,8 @@ import { ViewWillEnter } from '@ionic/angular';
 })
 export class NewChatPage implements ViewWillEnter {
 
-  /*
-   Variable Status solo contiene los estados que puede tener,
-   estos pueden ser cargando, cargado, error, se declara aqui
-   para usarla en el ngSwitch del HTML, esta declarada en la carpeta
-   de models/models.ts
-  */
+ 
   Status = Status
-
-  /*
-  Variable que indica el estado actual de la pantalla, la inicamos
-  en loading para mostrar el spinner de cargando en el html
-  */
   currentStatus = Status.loading
 
   /*
@@ -29,9 +19,7 @@ export class NewChatPage implements ViewWillEnter {
   */
   users: User[] = []
 
-  /*
-    Inyectamos el servicio
-  */
+ 
   constructor(
     private usersService: UsersService
   ) { }
@@ -63,11 +51,7 @@ export class NewChatPage implements ViewWillEnter {
       /* Si no lo cambiamos a loaded */
       this.currentStatus = Status.loaded
     }, () => {
-      /* 
-      Esta funcion se ejecuta si existe algun error
-      por lo que cambiamos el estado a error
-      */
-
+      /* cambiamos el estado a error en caso de que ocurra algo*/
       this.currentStatus = Status.error
     })
   }

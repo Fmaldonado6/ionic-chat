@@ -24,8 +24,10 @@ interface FormValues {
 
 export class RegisterPage implements OnInit {
   form: FormGroup
-  Status = Status
+  //Se usa para cambiar el estio de un componente en el HTML
   Types = Types
+  //Indica el estado de la pantalla
+  Status = Status
   currentStatus = Status.loaded
 
   constructor(
@@ -34,6 +36,8 @@ export class RegisterPage implements OnInit {
     private router: Router
   ) { }
 
+
+  //Iniciamos el formulario
   ngOnInit() {
     this.form = new FormGroup({
       email: new FormControl('', [
@@ -55,16 +59,22 @@ export class RegisterPage implements OnInit {
   }
 
   async submitForm(values: FormValues) {
+    //Verificamos que la contraseña cumpla con las condiciones
     if (values.confirmPassword != values.password)
       return (await this.toastController.create({ message: "Las contraseñas no coinciden", duration: 2000 })).present()
     if (values.password.length < 8)
       return (await this.toastController.create({ message: "La contraseña debe tener al menos 8 caracteres", duration: 2000 })).present()
+
+    //Cambiamos el estado a loading
     this.currentStatus = Status.loading
+
+    //Llenamos un objeto user con los valores del formulario
     const user = new User()
     user.email = values.email
     user.username = values.username
     user.password = values.password
 
+    //Llamamos al servicio para registrar usuario
     this.usersService.register(user).subscribe(e => {
       this.currentStatus = Status.success
 
@@ -72,6 +82,8 @@ export class RegisterPage implements OnInit {
         this.changePage()
       }, 2000);
     }, async (e) => {
+
+      //Si el error es de tipo Conflict es por que el email ya existe
       if (e instanceof Conflict) {
         const toast = await this.toastController.create({
           message: "El email ingresado ya existe",
@@ -86,12 +98,13 @@ export class RegisterPage implements OnInit {
     })
   }
 
+  //Al dar clic en retry volvemos a mostrar el form cambiando el estado
   retry() {
     this.currentStatus = Status.loaded
   }
 
+  //Cambiamos a la página principal
   changePage() {
-    console.log("Yes")
     this.router.navigate(["/"])
   }
 }

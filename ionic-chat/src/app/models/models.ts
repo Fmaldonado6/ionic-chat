@@ -1,3 +1,6 @@
+//Modelos de datos usados en la app
+
+
 export class User {
     private _id: string = ""
     username: string = ""

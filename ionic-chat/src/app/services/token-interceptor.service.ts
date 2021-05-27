@@ -7,12 +7,14 @@ import { Injectable } from '@angular/core';
 })
 export class TokenInterceptorService {
 
-  constructor(private databaseService:DatabaseService) { }
+  constructor(private databaseService: DatabaseService) { }
 
-
+  //Se utiliza para mandar el token en cada petición
   intercept(req, next) {
     let token = req;
+    //Obtenemos el token
     const savedToken = this.databaseService.token
+    //Si el token no es null lo agregamos al request
     if (savedToken) {
       token = req.clone({
         setHeaders: {
@@ -20,7 +22,7 @@ export class TokenInterceptorService {
         }
       })
     }
-
+    //Continuamos con la petición
     return next.handle(token)
 
   }

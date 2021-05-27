@@ -1,3 +1,6 @@
+
+//Errores que puede arrojar un servicio HTTP
+
 export class AppError {
     constructor(public originalError?: any) { }
 }

@@ -23,7 +23,7 @@ export class AccountPage implements OnInit {
   ngOnInit() {
   }
 
-
+  //Se cierra la sesión eliminando el token y navegando a la pantalla de login
   async signOut() {
     this.navController.navigateRoot("/")
     if (this.platform.is('capacitor'))

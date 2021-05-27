@@ -26,17 +26,21 @@ export class MainPage implements OnInit, OnDestroy {
     private usersService: UsersService
   ) { }
   ngOnDestroy(): void {
+    //Se desuscribe de los cambios del usuario actual
     if (this.subscription)
       this.subscription.unsubscribe()
   }
 
   ngOnInit() {
+    //Nos conectamos al websocket
     this.websocketService.connect()
+    //Se suscribe a los cambios del usuario actual, para actualizar la información del usuario el editarlo
     this.subscription = this.usersService.userChanged.asObservable().subscribe(e => {
       this.loggedUser = e
     })
   }
 
+  //Guarda una referencia a la tab actual
   tabChange(tabsRef: IonTabs) {
     this.activeTab = tabsRef.outlet.activatedView.element;
   }
@@ -57,6 +61,7 @@ export class MainPage implements OnInit, OnDestroy {
     this.propagateToActiveTab('ionViewDidEnter');
   }
 
+  //Se usa para que la tab activa tambien reciva eventos de ionic
   private propagateToActiveTab(eventName: string) {
     if (this.activeTab) {
       this.activeTab.dispatchEvent(new CustomEvent(eventName));

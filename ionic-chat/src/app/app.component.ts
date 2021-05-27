@@ -12,9 +12,22 @@ import { Component } from '@angular/core';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+  /*
+   Variable Status solo contiene los estados que puede tener,
+   estos pueden ser cargando, cargado, error, se declara aqui
+   para usarla en el ngSwitch del HTML,que está declarado en la carpeta
+   de models/models.ts
+  */
   Status = Status
+  /*
+  Variable que indica el estado actual de la pantalla, la inicamos
+  en loading para mostrar el spinner de cargando en el html
+  */
   currentStatus = Status.loading
+
+  //Nos dice si esta siendo ejecutado en un celular
   isMobile = false
+
   constructor(
     private databaseService: DatabaseService,
     private usersService: UsersService,
@@ -22,6 +35,8 @@ export class AppComponent {
     private navController: NavController,
     private platform: Platform
   ) {
+
+    //Esperamos a que el dispositivo esté listo e iniciamos sqlite
     platform.ready().then(e => {
       this.isMobile = this.platform.is('capacitor')
       this.initDatabase()
@@ -30,37 +45,35 @@ export class AppComponent {
   }
 
   async initDatabase() {
-    try {
-
-      if (this.isMobile) {
-        await this.databaseService.openDatabase()
-        await this.databaseService.configureDatabase()
-      }
-      this.selectDatabase()
-    } catch (error) {
-
+    //Si ejecutamos en un celular configuramos sqlite
+    if (this.isMobile) {
+      await this.databaseService.openDatabase()
+      await this.databaseService.configureDatabase()
     }
-
+    this.selectDatabase()
   }
 
 
 
   async selectDatabase() {
     try {
+      let token: string
 
-      let token = this.databaseService.getTokenStorage()
-
+      //Obtenemos el token desde localstorage o sqlite dependiendo de la plataforma
       if (this.isMobile) {
         const res = await this.databaseService.getToken()
         token = res.rows.item(0).token as string
-      }
+      } else
+        token = this.databaseService.getTokenStorage()
 
+      //Si el token es null navegamos a la pantalla de login
       if (!token) {
         this.navController.navigateRoot("")
         this.currentStatus = Status.loaded
         return
       }
 
+      //Si el token no es null obtenemos la información del token
       const user = this.usersService.getTokenInfo(token)
       this.databaseService.token = token
       this.usersService.getUserInfo(user.id).subscribe(e => {
@@ -68,6 +81,7 @@ export class AppComponent {
         this.currentStatus = Status.loaded
       })
     } catch (error) {
+      //Si ocurre algún error navegamos a la pantalla de login
       this.currentStatus = Status.loaded
       this.navController.navigateRoot("")
     }

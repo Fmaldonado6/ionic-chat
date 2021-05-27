@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  base_url:"http://localhost:4000"
+  base_url:"http://localhost:4000",
+  websocketUrl:"ws://localhost:4000/websocket/message"
 };
 
 /*
