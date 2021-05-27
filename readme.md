@@ -22,22 +22,6 @@
 - [Android](https://github.com/Fmaldonado6/ionic-chat/releases/tag/v1.0)
 
 
-## Pasos para ejecutar el server localmente
-- Descargar e instalar la base de datos [MongoDB](https://www.mongodb.com/try/download/community)
-
-- En la carpeta server hay que instalar las dependencias ejecutanto
-```
-npm i
-```
-- Compilar el typescript ejecutando 
-```
-npm run build
-```
-- Para correr el servidor, nuevamente en la carpeta server ejecutar el comando
-```
-npm start
-```
-- Si todo salió bien verás el mensaje "Server started on port 4000"
 ## Pasos para ejecutar la app
 - En la carpeta ionic-chat instalar las dependencias ejecutando el comando
 ```
