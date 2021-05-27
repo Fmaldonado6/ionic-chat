@@ -11,6 +11,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "mobile": "ionic capacitor copy android --configuration=mobile --no-livereload",
+    "mobile-prod": "ionic capacitor copy android --no-livereload",
     "deploy": "ng deploy --base-href=https://fmaldonado6.github.io/ionic-chat/"
   },
   "private": true,

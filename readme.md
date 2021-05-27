@@ -11,6 +11,7 @@
 - Fernando Maldonado Martínez 1916717
 - Kevin Alejandro Villalobos Valenzuela 1985789
 - Anel Priscila Delgado Hernández 1908699
+- David Alejandro Guerra Garza 1904753
 - Arturo Isac Luna Vázquez 1909394
 - Monserrath Alejandra Flores Rodríguez 1910360
 
