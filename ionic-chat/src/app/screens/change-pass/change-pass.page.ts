@@ -24,7 +24,7 @@ export class ChangePassPage implements OnInit {
   Status = Status
   Types = Types
   currentStatus = Status.loaded
-
+//Se inyectan los servicios que se utilizarán
   constructor(
     private usersService: UsersService,
     private toastController: ToastController,
